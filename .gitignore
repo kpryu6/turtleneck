@@ -1,7 +1,6 @@
 # Xcode
 build/
-*.xcodeproj/xcuserdata/
-*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/
 DerivedData/
 *.xcworkspace
 
@@ -11,7 +10,10 @@ DerivedData/
 
 # Generated
 *.dmg
+generate_*.swift
 
-# Scripts output
-generate_icon.swift
-generate_golden_turtle.swift
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/

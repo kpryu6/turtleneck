@@ -18,15 +18,24 @@ Slouch, and the turtle shows up. Keep slouching, and it gets angry.
 
 ## Install
 
-**One-line install** (copy & paste into Terminal):
+### macOS
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/kpryu6/TurtleNeck/main/install.sh | bash
 ```
 
+### Windows
+
+Open PowerShell and run:
+
+```powershell
+irm https://raw.githubusercontent.com/kpryu6/TurtleNeck/main/install.ps1 | iex
+```
+
 <details>
 <summary>Manual install</summary>
 
+**macOS:**
 ```bash
 brew tap kpryu6/turtleneck
 brew install --cask turtleneck
@@ -34,7 +43,15 @@ xattr -cr /Applications/TurtleNeck.app
 open /Applications/TurtleNeck.app
 ```
 
-Or download the `.dmg` from [Releases](https://github.com/kpryu6/TurtleNeck/releases).
+**Windows:**
+```bash
+git clone https://github.com/kpryu6/TurtleNeck.git
+cd TurtleNeck/Windows
+pip install -r requirements.txt
+python main.py
+```
+
+Or download the `.dmg` (macOS) from [Releases](https://github.com/kpryu6/TurtleNeck/releases).
 
 </details>
 
