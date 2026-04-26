@@ -1,0 +1,440 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0557EEF3EBF346600AE85737 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6BEFEA447DD4E0C9F569B6 /* SettingsStore.swift */; };
+		05F8D94CFFC32D0759011A37 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B1C9816AD192D116BBE568 /* StatsView.swift */; };
+		077427BE170D6AF7264980C2 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCF9D2E510E15D75077A871 /* L10n.swift */; };
+		12E055AB7F38F391F5B4A247 /* CustomizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E143F49B098B0F2F5BB15E5 /* CustomizeView.swift */; };
+		2013F2970275E87B856F1BE3 /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551B5A933BD9EE58DDE5635 /* CameraService.swift */; };
+		42DDA5B9B906A208EA4B5F00 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149B0705132837E69C800A3 /* SettingsView.swift */; };
+		44FCCE3DC01CB68EDC549F56 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CB8114A10C4C95821CC2C8 /* OnboardingView.swift */; };
+		484DEE2A28978C523BAA78DA /* StreakStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBD5E99DE67AE5F1B2804D /* StreakStore.swift */; };
+		49BD49E3A865ABC89844915F /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D446C6A86D825D35E13F73D7 /* LaunchAtLogin.swift */; };
+		631208340C3AFB7085F454DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5D2FC4A6DDEBEF3AF828 /* Assets.xcassets */; };
+		76C2BEB3086A6899E02B1349 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644841466D9A600A1E040CC7 /* PrivacyPolicyView.swift */; };
+		78FF78BC0B90E2BA97A22FF3 /* PostureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B471A1A371BE558D61E862C /* PostureService.swift */; };
+		7D0D95D4834FD2044F6F15E4 /* golden_turtle.png in Resources */ = {isa = PBXBuildFile; fileRef = BDDFF798A2F042E49240661F /* golden_turtle.png */; };
+		9972518A2B582EEA9FA55026 /* StatsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C2BE020C90E981EBA08DB /* StatsStore.swift */; };
+		9ACB1D433049DD76DE19F7B0 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB32C262C23DC954FF569AF /* Models.swift */; };
+		9DBA75F0027663497748C85A /* BreakReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E281482CD8DA6EA43C5999F1 /* BreakReminder.swift */; };
+		A6BDC84AC71687FC4604DBD8 /* TurtleOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730B916C2F09955C0B2FA7FD /* TurtleOverlay.swift */; };
+		ABF91DC53769879312FE8339 /* TurtleMenuIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CA9F81471A954C7200B18B /* TurtleMenuIcon.swift */; };
+		B2B69D3FE7A2F8F3E78E1CD9 /* PostureAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9B91A7B64141DCAC716432 /* PostureAnalyzer.swift */; };
+		B769F7CCED32D443621E0135 /* TurtleNeckApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964F1170A4189FBAA7490054 /* TurtleNeckApp.swift */; };
+		C02B6EBE2D69458530E89EFC /* CalibrationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F25DA5ED4EBBE5CC7E2720 /* CalibrationStore.swift */; };
+		CE14E1B00C7D0FDFFA84D6E3 /* MessageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C7B129EB75F203725F7350 /* MessageProvider.swift */; };
+		DEC6A1A31E20EA5C888CA632 /* CalibrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6CB27EDC9D790B72C10BBD /* CalibrationView.swift */; };
+		E1567CC0E0B1BD882DF8AE6F /* YearCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7982BA33F28ABFD4067CD6D /* YearCalendarView.swift */; };
+		F9745BC3ED0A4FCCA808FFF1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC75C423A281B72C39224F /* AppDelegate.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		058C2BE020C90E981EBA08DB /* StatsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsStore.swift; sourceTree = "<group>"; };
+		1551B5A933BD9EE58DDE5635 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		1ACBD5E99DE67AE5F1B2804D /* StreakStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakStore.swift; sourceTree = "<group>"; };
+		1D9B91A7B64141DCAC716432 /* PostureAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureAnalyzer.swift; sourceTree = "<group>"; };
+		1DCF9D2E510E15D75077A871 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
+		26DC75C423A281B72C39224F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2E143F49B098B0F2F5BB15E5 /* CustomizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeView.swift; sourceTree = "<group>"; };
+		323AE12C1091D6A6C9C0AB1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4149B0705132837E69C800A3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		644841466D9A600A1E040CC7 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		64F25DA5ED4EBBE5CC7E2720 /* CalibrationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationStore.swift; sourceTree = "<group>"; };
+		6569A3676435AFF3C864C0C1 /* TurtleNeck.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TurtleNeck.entitlements; sourceTree = "<group>"; };
+		730B916C2F09955C0B2FA7FD /* TurtleOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurtleOverlay.swift; sourceTree = "<group>"; };
+		7898C24F0B1669CF484CEBBD /* TurtleNeck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TurtleNeck.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C3E5D2FC4A6DDEBEF3AF828 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		87B1C9816AD192D116BBE568 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		964F1170A4189FBAA7490054 /* TurtleNeckApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurtleNeckApp.swift; sourceTree = "<group>"; };
+		9B471A1A371BE558D61E862C /* PostureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureService.swift; sourceTree = "<group>"; };
+		9BB32C262C23DC954FF569AF /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		A7982BA33F28ABFD4067CD6D /* YearCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearCalendarView.swift; sourceTree = "<group>"; };
+		B8CA9F81471A954C7200B18B /* TurtleMenuIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurtleMenuIcon.swift; sourceTree = "<group>"; };
+		BDDFF798A2F042E49240661F /* golden_turtle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = golden_turtle.png; sourceTree = "<group>"; };
+		C7C7B129EB75F203725F7350 /* MessageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageProvider.swift; sourceTree = "<group>"; };
+		D446C6A86D825D35E13F73D7 /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
+		D5CB8114A10C4C95821CC2C8 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		DE6BEFEA447DD4E0C9F569B6 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		E281482CD8DA6EA43C5999F1 /* BreakReminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakReminder.swift; sourceTree = "<group>"; };
+		EF6CB27EDC9D790B72C10BBD /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		3205B821AE94DA4106CE0EE0 = {
+			isa = PBXGroup;
+			children = (
+				90D09ACA764898194A57D8BF /* TurtleNeck */,
+				5284AFB6BEE8AA4A71099859 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4AD5A5E8B8B40F2A2FC79C0F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E281482CD8DA6EA43C5999F1 /* BreakReminder.swift */,
+				64F25DA5ED4EBBE5CC7E2720 /* CalibrationStore.swift */,
+				1551B5A933BD9EE58DDE5635 /* CameraService.swift */,
+				1DCF9D2E510E15D75077A871 /* L10n.swift */,
+				D446C6A86D825D35E13F73D7 /* LaunchAtLogin.swift */,
+				C7C7B129EB75F203725F7350 /* MessageProvider.swift */,
+				1D9B91A7B64141DCAC716432 /* PostureAnalyzer.swift */,
+				9B471A1A371BE558D61E862C /* PostureService.swift */,
+				DE6BEFEA447DD4E0C9F569B6 /* SettingsStore.swift */,
+				058C2BE020C90E981EBA08DB /* StatsStore.swift */,
+				1ACBD5E99DE67AE5F1B2804D /* StreakStore.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		5284AFB6BEE8AA4A71099859 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7898C24F0B1669CF484CEBBD /* TurtleNeck.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		566236A7222B0953DE5390F8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9BB32C262C23DC954FF569AF /* Models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6165806CBC80F075CB7E3A99 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7C3E5D2FC4A6DDEBEF3AF828 /* Assets.xcassets */,
+				BDDFF798A2F042E49240661F /* golden_turtle.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		90D09ACA764898194A57D8BF /* TurtleNeck */ = {
+			isa = PBXGroup;
+			children = (
+				26DC75C423A281B72C39224F /* AppDelegate.swift */,
+				323AE12C1091D6A6C9C0AB1A /* Info.plist */,
+				6569A3676435AFF3C864C0C1 /* TurtleNeck.entitlements */,
+				964F1170A4189FBAA7490054 /* TurtleNeckApp.swift */,
+				566236A7222B0953DE5390F8 /* Models */,
+				6165806CBC80F075CB7E3A99 /* Resources */,
+				4AD5A5E8B8B40F2A2FC79C0F /* Services */,
+				CBD7B67EEF7D68F294D34EEB /* Views */,
+			);
+			path = TurtleNeck;
+			sourceTree = "<group>";
+		};
+		CBD7B67EEF7D68F294D34EEB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EF6CB27EDC9D790B72C10BBD /* CalibrationView.swift */,
+				2E143F49B098B0F2F5BB15E5 /* CustomizeView.swift */,
+				D5CB8114A10C4C95821CC2C8 /* OnboardingView.swift */,
+				644841466D9A600A1E040CC7 /* PrivacyPolicyView.swift */,
+				4149B0705132837E69C800A3 /* SettingsView.swift */,
+				87B1C9816AD192D116BBE568 /* StatsView.swift */,
+				B8CA9F81471A954C7200B18B /* TurtleMenuIcon.swift */,
+				730B916C2F09955C0B2FA7FD /* TurtleOverlay.swift */,
+				A7982BA33F28ABFD4067CD6D /* YearCalendarView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0B2928433A028A703D1B7A44 /* TurtleNeck */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 549C1207E98AC146D462DFC4 /* Build configuration list for PBXNativeTarget "TurtleNeck" */;
+			buildPhases = (
+				68EB12709AE814BA781CC07A /* Sources */,
+				B068C9D18663EFD9FA8291C3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TurtleNeck;
+			packageProductDependencies = (
+			);
+			productName = TurtleNeck;
+			productReference = 7898C24F0B1669CF484CEBBD /* TurtleNeck.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		20E2298297BE925D05EA5F56 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					0B2928433A028A703D1B7A44 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 7DF444CCCDBAC61E36D7018E /* Build configuration list for PBXProject "TurtleNeck" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 3205B821AE94DA4106CE0EE0;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 5284AFB6BEE8AA4A71099859 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0B2928433A028A703D1B7A44 /* TurtleNeck */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B068C9D18663EFD9FA8291C3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				631208340C3AFB7085F454DF /* Assets.xcassets in Resources */,
+				7D0D95D4834FD2044F6F15E4 /* golden_turtle.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		68EB12709AE814BA781CC07A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9745BC3ED0A4FCCA808FFF1 /* AppDelegate.swift in Sources */,
+				9DBA75F0027663497748C85A /* BreakReminder.swift in Sources */,
+				C02B6EBE2D69458530E89EFC /* CalibrationStore.swift in Sources */,
+				DEC6A1A31E20EA5C888CA632 /* CalibrationView.swift in Sources */,
+				2013F2970275E87B856F1BE3 /* CameraService.swift in Sources */,
+				12E055AB7F38F391F5B4A247 /* CustomizeView.swift in Sources */,
+				077427BE170D6AF7264980C2 /* L10n.swift in Sources */,
+				49BD49E3A865ABC89844915F /* LaunchAtLogin.swift in Sources */,
+				CE14E1B00C7D0FDFFA84D6E3 /* MessageProvider.swift in Sources */,
+				9ACB1D433049DD76DE19F7B0 /* Models.swift in Sources */,
+				44FCCE3DC01CB68EDC549F56 /* OnboardingView.swift in Sources */,
+				B2B69D3FE7A2F8F3E78E1CD9 /* PostureAnalyzer.swift in Sources */,
+				78FF78BC0B90E2BA97A22FF3 /* PostureService.swift in Sources */,
+				76C2BEB3086A6899E02B1349 /* PrivacyPolicyView.swift in Sources */,
+				0557EEF3EBF346600AE85737 /* SettingsStore.swift in Sources */,
+				42DDA5B9B906A208EA4B5F00 /* SettingsView.swift in Sources */,
+				9972518A2B582EEA9FA55026 /* StatsStore.swift in Sources */,
+				05F8D94CFFC32D0759011A37 /* StatsView.swift in Sources */,
+				484DEE2A28978C523BAA78DA /* StreakStore.swift in Sources */,
+				ABF91DC53769879312FE8339 /* TurtleMenuIcon.swift in Sources */,
+				B769F7CCED32D443621E0135 /* TurtleNeckApp.swift in Sources */,
+				A6BDC84AC71687FC4604DBD8 /* TurtleOverlay.swift in Sources */,
+				E1567CC0E0B1BD882DF8AE6F /* YearCalendarView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		66D464464E3FBB42D32EED0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		6FF9DA704C2FE7E515DEFB7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TurtleNeck/TurtleNeck.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				INFOPLIST_FILE = TurtleNeck/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.turtleneck.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		7305CB473A909D60C15924D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C990EE41BA262275A73E8FA7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TurtleNeck/TurtleNeck.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				INFOPLIST_FILE = TurtleNeck/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.turtleneck.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		549C1207E98AC146D462DFC4 /* Build configuration list for PBXNativeTarget "TurtleNeck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FF9DA704C2FE7E515DEFB7B /* Debug */,
+				C990EE41BA262275A73E8FA7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7DF444CCCDBAC61E36D7018E /* Build configuration list for PBXProject "TurtleNeck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7305CB473A909D60C15924D6 /* Debug */,
+				66D464464E3FBB42D32EED0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 20E2298297BE925D05EA5F56 /* Project object */;
+}

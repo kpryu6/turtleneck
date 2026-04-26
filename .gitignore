@@ -1,0 +1,17 @@
+# Xcode
+build/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+*.xcworkspace
+
+# macOS
+.DS_Store
+*.swp
+
+# Generated
+*.dmg
+
+# Scripts output
+generate_icon.swift
+generate_golden_turtle.swift
