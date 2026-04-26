@@ -25,6 +25,17 @@ brew install --cask turtleneck
 
 Or download the latest `.dmg` from [Releases](https://github.com/kpryu6/TurtleNeck/releases).
 
+### First Launch
+
+Since TurtleNeck is not signed with an Apple Developer certificate, macOS may block it on first launch. To fix this:
+
+```bash
+xattr -cr /Applications/TurtleNeck.app
+open /Applications/TurtleNeck.app
+```
+
+Or: **System Settings → Privacy & Security → scroll down → "Open Anyway"**
+
 ## How It Works
 
 1. **Calibrate** — Sit up straight, TurtleNeck saves your good posture as a baseline
