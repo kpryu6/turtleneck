@@ -18,23 +18,25 @@ Slouch, and the turtle shows up. Keep slouching, and it gets angry.
 
 ## Install
 
+**One-line install** (copy & paste into Terminal):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/kpryu6/TurtleNeck/main/install.sh | bash
+```
+
+<details>
+<summary>Manual install</summary>
+
 ```bash
 brew tap kpryu6/turtleneck
 brew install --cask turtleneck
-```
-
-Or download the latest `.dmg` from [Releases](https://github.com/kpryu6/TurtleNeck/releases).
-
-### First Launch
-
-Since TurtleNeck is not signed with an Apple Developer certificate, macOS may block it on first launch. To fix this:
-
-```bash
 xattr -cr /Applications/TurtleNeck.app
 open /Applications/TurtleNeck.app
 ```
 
-Or: **System Settings → Privacy & Security → scroll down → "Open Anyway"**
+Or download the `.dmg` from [Releases](https://github.com/kpryu6/TurtleNeck/releases).
+
+</details>
 
 ## How It Works
 
