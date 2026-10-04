@@ -1,5 +1,13 @@
 """TurtleNeck for Windows — main entry point."""
 import sys
+
+# Import order matters on Windows: PyQt6 ships its own (older) msvcp140.dll. If Qt
+# loads first, MediaPipe's native module binds to that copy and fails with
+# "DLL load failed while importing _framework_bindings: A dynamic link library
+# (DLL) initialization routine failed". Loading MediaPipe/OpenCV first makes the
+# system C++ runtime the one in the process.
+import cv2  # noqa: F401
+import mediapipe  # noqa: F401
 from PyQt6.QtWidgets import QApplication
 
 

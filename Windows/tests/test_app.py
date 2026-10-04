@@ -16,6 +16,8 @@ os.environ["HOME"] = os.environ["USERPROFILE"] = _HOME
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import numpy as np
+import cv2  # noqa: F401  — must load before PyQt6 on Windows, see main.py
+import mediapipe  # noqa: F401
 from PyQt6.QtWidgets import QApplication, QLabel
 
 from turtleneck.core.stats import StatsStore, StreakStore, PostureRecord
