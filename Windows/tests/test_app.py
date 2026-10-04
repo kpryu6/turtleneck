@@ -34,6 +34,17 @@ def pump(seconds: float):
         time.sleep(0.005)
 
 
+def pump_until(condition, timeout: float = 10.0):
+    """Process events until `condition()` is true. CI runners can be slow, so tests
+    wait for the state they need instead of a fixed amount of time."""
+    end = time.time() + timeout
+    while not condition():
+        if time.time() > end:
+            raise AssertionError("timed out waiting for condition")
+        app.processEvents()
+        time.sleep(0.005)
+
+
 def at(d: date, hour: int = 10) -> float:
     return datetime.combine(d, datetime.min.time()).timestamp() + hour * 3600
 
@@ -87,16 +98,28 @@ class StreakTests(unittest.TestCase):
 
 class BreakReminderTests(unittest.TestCase):
     def test_cycle_and_stop(self):
+        # Drive the minute ticks directly: real-time QTimer waits are flaky on CI
+        # (Windows timer resolution is ~15 ms and runners can stall).
         events = []
-        br = BreakReminder(lambda: events.append("start"), lambda: events.append("end"), tick_ms=20)
-        br.configure(True, 2, 1)
-        pump(0.2)
-        self.assertEqual(events[:3], ["start", "end", "start"])
-        br.configure(False, 2, 1)
-        n = len(events)
-        pump(0.1)
-        self.assertEqual(len(events), n)
+        br = BreakReminder(lambda: events.append("start"), lambda: events.append("end"))
+        br.configure(True, 2, 1)  # 2 min work, 1 min rest
+        self.assertTrue(br.is_active)
+        self.assertEqual(br.status_text(), "💻 2 min")
+        for _ in range(5):
+            br._tick()
+        self.assertEqual(events, ["start", "end", "start"])
+        self.assertTrue(br.is_break_time)
+        self.assertEqual(br.status_text(), "☕ 1 min")
+
+        br.configure(True, 2, 1)  # unchanged settings keep the current cycle
+        self.assertTrue(br.is_break_time)
+        br.configure(True, 3, 1)  # changed settings restart with work time
+        self.assertFalse(br.is_break_time)
+        self.assertEqual(br.minutes_remaining, 3)
+
+        br.configure(False, 3, 1)
         self.assertFalse(br.is_active)
+        self.assertIsNone(br.status_text())
 
 
 class FakeCamera:
@@ -174,7 +197,7 @@ class CalibrationWindowTests(unittest.TestCase):
         pump(0.1)
         w._start_countdown()
         w._timer.setInterval(10)
-        pump(0.3)
+        pump_until(lambda: w._finished or (w.btn.isEnabled() and w.countdown <= 0))
         w.btn.click()
         w.close()
         pump(0.05)
@@ -196,10 +219,11 @@ class CalibrationWindowTests(unittest.TestCase):
 
 class AppWiringTests(unittest.TestCase):
     def finish_calibration(self, tn):
-        tn._cal_win._start_countdown()
-        tn._cal_win._timer.setInterval(10)
-        pump(0.3)
-        tn._cal_win.btn.click()
+        win = tn._cal_win
+        win._start_countdown()
+        win._timer.setInterval(10)
+        pump_until(lambda: win.btn.isEnabled() and win.countdown <= 0)
+        win.btn.click()
         pump(0.1)
 
     def test_tray_cancel_and_break_wiring(self):
