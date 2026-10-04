@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🐢 TurtleNeck
+<img src="design/app-icon.svg" width="128" alt="TurtleNeck app icon">
+
+# TurtleNeck
 
 **A sassy turtle that fixes your posture**
 
@@ -12,7 +14,7 @@ Keep slouching and it gets angrier.
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-blue?logo=kofi)](https://ko-fi.com/kpryu)
 
-**English** · [한국어](README.ko.md)
+**[Website](https://kpryu6.github.io/turtleneck/)** · **English** · [한국어](README.ko.md)
 
 <img src="docs/images/alerts.png" width="500" alt="TurtleNeck alerts escalating from a gentle brown turtle to an angry red one">
 
@@ -82,6 +84,14 @@ It installs `TurtleNeck.exe` from the latest release, so you don't need Python. 
 ## Privacy
 
 Everything runs locally on your Mac. **No camera footage is recorded, stored, or sent anywhere.** There are no servers, no analytics, and no accounts. TurtleNeck only keeps the position and size of your face to compare against your baseline.
+
+## Verify your download
+
+Every release is built from this repository by GitHub Actions and carries signed [build provenance](https://docs.github.com/actions/security-for-github-actions/using-artifact-attestations). To check that a file really came from here:
+
+```bash
+gh attestation verify TurtleNeck.dmg --repo kpryu6/turtleneck
+```
 
 ## FAQ
 
