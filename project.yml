@@ -16,13 +16,15 @@ targets:
       properties:
         NSCameraUsageDescription: "거북목 자세를 감지하기 위해 카메라를 사용합니다. 영상은 로컬에서만 처리되며 저장되지 않습니다."
         LSUIElement: true
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
     entitlements:
       path: TurtleNeck/TurtleNeck.entitlements
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.turtleneck.app
-        MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: "1.1.0"
+        CURRENT_PROJECT_VERSION: 2
         SWIFT_VERSION: "5.9"
         MACOSX_DEPLOYMENT_TARGET: "13.0"
         CODE_SIGN_IDENTITY: "-"

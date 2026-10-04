@@ -26,7 +26,7 @@
 curl -fsSL https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.sh | bash
 ```
 
-Homebrew가 있으면 Homebrew로 설치하고, 없으면 [Releases](https://github.com/kpryu6/turtleneck/releases)에서 앱을 바로 내려받아요. 처음 실행하면 카메라 권한을 허용하고 5초 동안 바른 자세로 앉아 기준 자세를 저장하면 끝이에요.
+이 한 줄이면 끝이에요. [Releases](https://github.com/kpryu6/turtleneck/releases)에서 최신 버전을 받아 응용 프로그램 폴더에 설치하고 바로 실행해요(Homebrew 필요 없음). 업데이트할 때도 같은 명령을 다시 실행하면 돼요. 처음 실행하면 카메라 권한을 허용하고 5초 동안 바른 자세로 앉아 기준 자세를 저장하면 끝이에요.
 
 <details>
 <summary>다른 설치 방법</summary>

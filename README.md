@@ -26,7 +26,7 @@ Keep slouching and it gets angrier.
 curl -fsSL https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.sh | bash
 ```
 
-This uses Homebrew if you have it. If you don't, it downloads the app straight from [Releases](https://github.com/kpryu6/turtleneck/releases) instead. On first launch, allow camera access and sit up straight for 5 seconds to calibrate.
+That's it. It downloads the latest version from [Releases](https://github.com/kpryu6/turtleneck/releases), installs it to Applications, and opens it (no Homebrew needed). Run the same command again to update. On first launch, allow camera access and sit up straight for 5 seconds to calibrate.
 
 <details>
 <summary>Other ways to install</summary>
