@@ -23,11 +23,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Windows PowerShell 5.1 mis-decodes non-ASCII in BOM-less scripts
+      - name: install.ps1 is ASCII-only
+        shell: pwsh
+        run: |
+          $bad = Select-String -Path install.ps1 -Pattern '[^\x00-\x7F]' -AllMatches
+          if ($bad) { $bad | ForEach-Object { "install.ps1:$($_.LineNumber): $($_.Line)" }; throw "install.ps1 must be ASCII-only" }
+
       - name: Install like a user (Windows PowerShell 5.1, irm | iex)
         shell: powershell
+        env:
+          # The PR's version of install.ps1, otherwise main's
+          REF: ${{ github.event.pull_request.head.sha || 'main' }}
         run: |
           $ErrorActionPreference = 'Stop'
-          Get-Content -Raw .\install.ps1 | Invoke-Expression
+          irm "https://raw.githubusercontent.com/kpryu6/turtleneck/$env:REF/install.ps1" | iex
 
       - name: Check installed files
         shell: pwsh
