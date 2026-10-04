@@ -21,9 +21,11 @@ Image.open('../TurtleNeck/Resources/Assets.xcassets/AppIcon.appiconset/icon_256.
 "@)
 
 Write-Host "🔨 Building TurtleNeck.exe..."
+# Absolute path: PyInstaller resolves relative --icon paths against --specpath
+$icon = (Resolve-Path 'build\turtleneck.ico').Path
 Invoke-Checked python @('-m', 'PyInstaller', '--noconfirm', '--clean', '--windowed',
     '--name', 'TurtleNeck',
-    '--icon', 'build\turtleneck.ico',
+    '--icon', $icon,
     # MediaPipe loads its .tflite / .binarypb model files at runtime
     '--collect-data', 'mediapipe',
     '--distpath', 'dist', '--workpath', 'build\pyinstaller', '--specpath', 'build',

@@ -32,7 +32,7 @@ python main.py
 | Posture detection (MediaPipe Face Mesh) | ✅ |
 | Slide-in turtle alerts that escalate (Gentle → Annoyed → Angry) | ✅ |
 | Custom characters and messages | ✅ |
-| Daily stats and weekly trend | ✅ |
+| Daily stats, weekly trend, 🔥 streaks | ✅ |
 | Break reminder (Pomodoro style) | ✅ |
 | Work-hours schedule, sensitivity, cooldown | ✅ |
 | Launch at login | ✅ |
@@ -48,6 +48,15 @@ Close other apps that use the camera (Teams, Zoom, the Camera app), then click *
 
 **No turtle appears in the tray**
 Windows may hide new tray icons. Click **^** next to the clock and drag the turtle onto the taskbar.
+
+## Tests
+
+```bash
+cd Windows
+QT_QPA_PLATFORM=offscreen python -m unittest discover -s tests -t .
+```
+
+The tests cover streaks, the break timer, and the calibration window. They feed it camera frames from a background thread, the way the real camera does, and check that the UI is only touched from the GUI thread. They also check the tray app's recalibration flow. Tests use a temporary home folder, so your real `~/.turtleneck` data is never touched.
 
 ## Building the .exe
 
@@ -67,6 +76,7 @@ GitHub Actions ([`.github/workflows/windows.yml`](../.github/workflows/windows.y
 Windows/
 ├── main.py                      # Entry point (+ --self-test)
 ├── build.ps1                    # PyInstaller build + smoke test
+├── tests/                       # unittest suite (runs in CI)
 ├── requirements.txt
 └── turtleneck/
     ├── core/

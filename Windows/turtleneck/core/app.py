@@ -57,6 +57,7 @@ class TurtleNeckApp(QObject):
 
     def start(self):
         self._apply_settings()
+        self.streak.settle(self.stats)
         if not self.calibration.is_calibrated:
             self._show_onboarding()
         else:
@@ -148,6 +149,7 @@ class TurtleNeckApp(QObject):
         QApplication.quit()
 
     def _on_face(self, face: FaceData):
+        self.streak.settle(self.stats)  # no-op unless the date changed
         if self.paused or not self.calibration.data:
             return
         cal_win = getattr(self, "_cal_win", None)
@@ -247,6 +249,7 @@ class TurtleNeckApp(QObject):
         self._settings_win.show()
 
     def _show_stats(self):
+        self.streak.settle(self.stats)
         self._stats_win = StatsWindow(self.stats, self.streak)
         self._stats_win.show()
 
