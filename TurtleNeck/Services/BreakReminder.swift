@@ -4,13 +4,39 @@ import AppKit
 class BreakReminder: ObservableObject {
     static let shared = BreakReminder()
 
-    @Published var isActive = false
-    @Published var workMinutes: Int = 50
-    @Published var breakMinutes: Int = 10
+    private enum Key {
+        static let active = "breakReminderActive"
+        static let work = "breakWorkMinutes"
+        static let rest = "breakRestMinutes"
+    }
+    private let defaults: UserDefaults
+
+    // 켜짐 여부와 시간 설정은 재시작 후에도 유지된다
+    @Published private(set) var isActive = false {
+        didSet { defaults.set(isActive, forKey: Key.active) }
+    }
+    @Published var workMinutes: Int = 50 {
+        didSet { defaults.set(workMinutes, forKey: Key.work) }
+    }
+    @Published var breakMinutes: Int = 10 {
+        didSet { defaults.set(breakMinutes, forKey: Key.rest) }
+    }
     @Published var minutesRemaining: Int = 50
     @Published var isBreakTime = false
 
     private var timer: Timer?
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        if defaults.object(forKey: Key.work) != nil { workMinutes = defaults.integer(forKey: Key.work) }
+        if defaults.object(forKey: Key.rest) != nil { breakMinutes = defaults.integer(forKey: Key.rest) }
+        minutesRemaining = workMinutes
+    }
+
+    /// 앱 시작 시 호출 — 지난번에 켜 두었다면 작업 타이머를 다시 시작
+    func resumeIfEnabled() {
+        if defaults.bool(forKey: Key.active) && !isActive { start() }
+    }
 
     func start() {
         isActive = true

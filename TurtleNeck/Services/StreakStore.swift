@@ -3,41 +3,57 @@ import Foundation
 class StreakStore: ObservableObject {
     static let shared = StreakStore()
     private let streakKey = "postureStreak"
-    private let lastGoodDayKey = "lastGoodPostureDay"
+    private let bestKey = "bestStreak"
+    private let settledKey = "streakSettledThrough"
+
+    private let defaults: UserDefaults
+    private var lastSettleCheck: Date?
 
     @Published var currentStreak: Int = 0
     @Published var bestStreak: Int = 0
 
-    init() {
-        currentStreak = UserDefaults.standard.integer(forKey: streakKey)
-        bestStreak = UserDefaults.standard.integer(forKey: "bestStreak")
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        currentStreak = defaults.integer(forKey: streakKey)
+        bestStreak = defaults.integer(forKey: bestKey)
     }
 
-    /// 하루가 끝날 때 호출 — 오늘 자세 점수가 70 이상이면 streak 유지
-    func endOfDay(score: Int) {
-        let today = Calendar.current.startOfDay(for: Date())
-        let lastDay = UserDefaults.standard.object(forKey: lastGoodDayKey) as? Date
+    /// 지나간 날짜들의 점수로 streak을 정산한다. 오늘은 아직 진행 중이라 제외.
+    /// - 점수 70 이상인 날: streak +1
+    /// - 70 미만인 날: streak 0
+    /// - 기록이 없는 날(앱을 안 켠 주말 등): 끊지도 늘리지도 않음
+    /// 매초 불려도 되도록 날짜가 바뀌었을 때만 실제로 계산한다.
+    func settle(stats: StatsStore = .shared, now: Date = Date()) {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: now)
+        if lastSettleCheck == today { return }
+        lastSettleCheck = today
 
-        if score >= 70 {
-            if let last = lastDay {
-                let diff = Calendar.current.dateComponents([.day], from: last, to: today).day ?? 0
-                if diff == 1 {
-                    currentStreak += 1
-                } else if diff > 1 {
-                    currentStreak = 1
-                }
-                // diff == 0 이면 이미 오늘 처리됨
-            } else {
-                currentStreak = 1
-            }
-            UserDefaults.standard.set(today, forKey: lastGoodDayKey)
+        var day: Date
+        if let last = defaults.object(forKey: settledKey) as? Date {
+            day = cal.date(byAdding: .day, value: 1, to: cal.startOfDay(for: last))!
+        } else if let first = stats.records.map(\.timestamp).min() {
+            day = cal.startOfDay(for: first)
         } else {
-            currentStreak = 0
+            return
         }
 
-        if currentStreak > bestStreak { bestStreak = currentStreak }
-        UserDefaults.standard.set(currentStreak, forKey: streakKey)
-        UserDefaults.standard.set(bestStreak, forKey: "bestStreak")
+        var current = currentStreak, best = bestStreak
+        while day < today {
+            if let score = stats.score(on: day) {
+                current = score >= 70 ? current + 1 : 0
+                best = max(best, current)
+            }
+            defaults.set(day, forKey: settledKey)
+            day = cal.date(byAdding: .day, value: 1, to: day)!
+        }
+
+        if (current, best) != (currentStreak, bestStreak) {
+            currentStreak = current
+            bestStreak = best
+            defaults.set(current, forKey: streakKey)
+            defaults.set(best, forKey: bestKey)
+        }
     }
 
     var streakEmoji: String {

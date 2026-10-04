@@ -5,7 +5,12 @@ APP_NAME="TurtleNeck"
 SCHEME="TurtleNeck"
 BUILD_DIR="build"
 DMG_NAME="${APP_NAME}.dmg"
-VERSION=$(grep MARKETING_VERSION project.yml | head -1 | awk -F'"' '{print $2}')
+# Match the build setting line only (Info.plist properties also mention $(MARKETING_VERSION))
+VERSION=$(grep -E '^[[:space:]]*MARKETING_VERSION:' project.yml | head -1 | awk -F'"' '{print $2}')
+if [[ ! "$VERSION" =~ ^[0-9]+(\.[0-9]+)*$ ]]; then
+    echo "❌ Could not read MARKETING_VERSION from project.yml (got '$VERSION')"
+    exit 1
+fi
 
 echo "🐢 Building TurtleNeck v${VERSION}..."
 
@@ -49,5 +54,5 @@ SHA=$(shasum -a 256 "$BUILD_DIR/${APP_NAME}-${VERSION}.dmg" | awk '{print $1}')
 echo "🔑 SHA256: $SHA"
 echo ""
 echo "📋 For Homebrew formula, use:"
-echo "   url: https://github.com/YOURUSERNAME/TurtleNeck/releases/download/v${VERSION}/${APP_NAME}-${VERSION}.dmg"
+echo "   url: https://github.com/kpryu6/turtleneck/releases/download/v${VERSION}/${APP_NAME}-${VERSION}.dmg"
 echo "   sha256: $SHA"

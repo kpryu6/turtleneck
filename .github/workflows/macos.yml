@@ -1,0 +1,46 @@
+name: macOS build
+
+on:
+  push:
+    tags: ['v*']
+  pull_request:
+    paths: ['TurtleNeck/**', 'TurtleNeckTests/**', 'project.yml', 'scripts/**', '.github/workflows/macos.yml']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    permissions:
+      contents: write  # attach the DMG to the GitHub Release on tag pushes
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Xcode project
+        run: |
+          brew install xcodegen
+          xcodegen generate
+
+      - name: Unit tests
+        run: |
+          xcodebuild test -project TurtleNeck.xcodeproj -scheme TurtleNeck \
+            -destination 'platform=macOS' -derivedDataPath build/test \
+            CODE_SIGNING_ALLOWED=NO | tail -40
+          exit ${PIPESTATUS[0]}
+
+      - name: Build Release DMG
+        run: ./scripts/build-release.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TurtleNeck-macOS
+          path: build/TurtleNeck-*.dmg
+
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          # The Windows workflow may create the release for the same tag at the same time
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "TurtleNeck $TAG" --generate-notes || true
+          gh release upload "$TAG" build/TurtleNeck-*.dmg --clobber
