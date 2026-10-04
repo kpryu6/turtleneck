@@ -75,7 +75,8 @@ jobs:
         if: always()
         shell: pwsh
         run: |
-          Get-Process TurtleNeck -ErrorAction SilentlyContinue | Stop-Process -Force
+          # Stop the instance the installer launched and wait until it's really gone
+          Get-Process TurtleNeck -ErrorAction SilentlyContinue | Stop-Process -Force -PassThru | Wait-Process -Timeout 30 -ErrorAction SilentlyContinue
           $exe = "$env:LOCALAPPDATA\TurtleNeck\TurtleNeck.exe"
           $failed = $false
           # Real Windows platform plugin (offscreen can't load Windows fonts)
