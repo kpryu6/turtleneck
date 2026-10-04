@@ -1,0 +1,67 @@
+name: Update Homebrew tap
+
+# Runs after the macOS build of a v* tag has attached the DMG to the release,
+# and can be run by hand (e.g. to retry) with a tag.
+on:
+  workflow_run:
+    workflows: ['macOS build']
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag, e.g. v1.2.0'
+        required: true
+      dry_run:
+        description: 'Show the change without pushing'
+        type: boolean
+        default: false
+
+concurrency:
+  group: homebrew-tap
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       startsWith(github.event.workflow_run.head_branch, 'v'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      TAG: ${{ github.event.inputs.tag || github.event.workflow_run.head_branch }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - uses: actions/checkout@v4
+        with:
+          repository: kpryu6/homebrew-turtleneck
+          path: tap
+          # Deploy key with write access to the tap repo only
+          ssh-key: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
+
+      - name: Update cask
+        run: ./scripts/update-homebrew-tap.sh "$TAG" tap
+
+      - name: Commit and push
+        working-directory: tap
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          git diff
+          if git diff --quiet; then
+            echo "Cask already up to date for $TAG"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Update TurtleNeck to ${TAG#v}"
+          if [ "$DRY_RUN" = "true" ]; then
+            git push --dry-run origin HEAD
+          else
+            git push origin HEAD
+          fi
