@@ -28,6 +28,7 @@ Invoke-Checked python @('-m', 'PyInstaller', '--noconfirm', '--clean', '--window
     '--icon', $icon,
     # MediaPipe loads its .tflite / .binarypb model files at runtime
     '--collect-data', 'mediapipe',
+    '--add-data', "$(Resolve-Path 'turtleneck\resources\icon.png');turtleneck\resources",
     '--distpath', 'dist', '--workpath', 'build\pyinstaller', '--specpath', 'build',
     'main.py')
 

@@ -9,7 +9,9 @@ struct OnboardingView: View {
             TabView(selection: $page) {
                 // Page 1: Welcome
                 VStack(spacing: 16) {
-                    Text("🐢").font(.system(size: 80))
+                    Image(nsImage: NSApp.applicationIconImage)
+                        .resizable()
+                        .frame(width: 112, height: 112)
                     Text("Welcome to TurtleNeck")
                         .font(.title.bold())
                     Text("Your friendly posture guardian that\nkeeps your neck in check.")
