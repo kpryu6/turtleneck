@@ -76,12 +76,24 @@ jobs:
         shell: pwsh
         run: |
           Get-Process TurtleNeck -ErrorAction SilentlyContinue | Stop-Process -Force
+          $exe = "$env:LOCALAPPDATA\TurtleNeck\TurtleNeck.exe"
+          $failed = $false
           # Real Windows platform plugin (offscreen can't load Windows fonts)
-          $log = "$PWD\shots\self-test.log"
-          $p = Start-Process "$env:LOCALAPPDATA\TurtleNeck\TurtleNeck.exe" -ArgumentList '--self-test', "`"$log`"", '--shots', "`"$PWD\shots`"" -PassThru
-          if (-not $p.WaitForExit(120000)) { $p | Stop-Process -Force; throw "self-test timed out" }
-          Get-Content $log
-          if ($p.ExitCode -ne 0) { throw "self-test failed" }
+          foreach ($run in @(
+              @{ name = 'self-test';         args = @('--self-test', "`"$PWD\shots\self-test.log`"") },
+              @{ name = 'self-test + shots'; args = @('--self-test', "`"$PWD\shots\self-test-shots.log`"", '--shots', "`"$PWD\shots`"") }
+          )) {
+            $p = Start-Process $exe -ArgumentList $run.args -PassThru
+            if (-not $p.WaitForExit(120000)) { $p | Stop-Process -Force; "$($run.name): timed out"; $failed = $true; continue }
+            "$($run.name): exit code $($p.ExitCode) (0x{0:X8})" -f $p.ExitCode
+            if ($p.ExitCode -ne 0) { $failed = $true }
+          }
+          Get-ChildItem shots\*.log | ForEach-Object { "--- $($_.Name)"; Get-Content $_ }
+          # Native crashes don't reach Python; Windows records them in the Application log
+          Get-WinEvent -FilterHashtable @{ LogName = 'Application'; Id = 1000, 1026; StartTime = (Get-Date).AddMinutes(-10) } -ErrorAction SilentlyContinue |
+            Where-Object { $_.Message -match 'TurtleNeck' } |
+            ForEach-Object { "--- Event $($_.Id) at $($_.TimeCreated)"; $_.Message }
+          if ($failed) { throw "self-test failed" }
 
       - uses: actions/upload-artifact@v4
         if: always()
