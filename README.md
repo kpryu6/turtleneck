@@ -34,6 +34,7 @@ That's it. It downloads the latest version from [Releases](https://github.com/kp
 **Homebrew**
 ```bash
 brew tap kpryu6/turtleneck
+brew trust kpryu6/turtleneck
 brew install --cask turtleneck
 xattr -cr /Applications/TurtleNeck.app
 ```

@@ -34,6 +34,7 @@ curl -fsSL https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.sh |
 **Homebrew**
 ```bash
 brew tap kpryu6/turtleneck
+brew trust kpryu6/turtleneck
 brew install --cask turtleneck
 xattr -cr /Applications/TurtleNeck.app
 ```
