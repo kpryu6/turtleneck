@@ -36,14 +36,21 @@ Write-Host "🔧 Normalizing the C++ runtime..."
 # native module fails with "DLL initialization routine failed" no matter the import
 # order. Replace every bundled MSVC runtime DLL with the newer system copy (the
 # runtime is backward compatible and redistributable).
+function Get-FileVersion([System.IO.FileInfo]$File) {
+    # FileVersion strings can carry suffixes ("14.26.28720.3 built by: vcwrkspc"); use the numeric parts
+    $v = $File.VersionInfo
+    [version]::new($v.FileMajorPart, $v.FileMinorPart, $v.FileBuildPart, $v.FilePrivatePart)
+}
 $sys32 = Join-Path $env:WINDIR 'System32'
+$distRoot = (Resolve-Path 'dist').Path
 Get-ChildItem 'dist\TurtleNeck' -Recurse -Include 'msvcp140*.dll', 'vcruntime140*.dll', 'concrt140.dll' | ForEach-Object {
     $src = Join-Path $sys32 $_.Name
-    $before = $_.VersionInfo.FileVersion
     if (Test-Path $src) {
-        $after = (Get-Item $src).VersionInfo.FileVersion
-        if ([version]$after -gt [version]$before) { Copy-Item $src $_.FullName -Force }
-        Write-Host "   $($_.FullName.Substring((Resolve-Path 'dist').Path.Length + 1)): $before -> $((Get-Item $_.FullName).VersionInfo.FileVersion)"
+        $before = Get-FileVersion $_
+        $newer = Get-FileVersion (Get-Item $src)
+        if ($newer -gt $before) { Copy-Item $src $_.FullName -Force }
+        $after = Get-FileVersion (Get-Item $_.FullName)
+        Write-Host "   $($_.FullName.Substring($distRoot.Length + 1)): $before -> $after"
     }
 }
 
