@@ -67,8 +67,8 @@ The Windows version is still catching up with macOS. See [Windows/README.md](Win
 
 - **Menu bar app.** The turtle icon turns yellow or red as your posture gets worse.
 - **Your own messages and characters.** Write your own sassy lines, or swap the turtle for a cat, dog, owl, or your own image.
-- **Stats.** Daily score, turtle visits, weekly trend, a GitHub-style year calendar, and 🔥 streaks.
-- **Break reminder.** A Pomodoro-style work/rest timer.
+- **Stats.** Daily score, turtle visits, weekly trend, a GitHub-style year calendar, and 🔥 streaks. A day with a score of 70+ extends your streak, and days you don't use TurtleNeck (like weekends) don't break it.
+- **Break reminder.** A Pomodoro-style work/rest timer that remembers your settings.
 - **Stays out of the way.** Runs only during work hours if you want, pauses while chosen apps are open, and pauses during Focus mode.
 - **8 languages.** English, 한국어, 日本語, 中文, Español, Deutsch, Français, Português.
 

@@ -10,6 +10,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         setupMenuBar()
         postureService = PostureService.shared
+        StreakStore.shared.settle()
+        BreakReminder.shared.resumeIfEnabled()
 
         if !UserDefaults.standard.bool(forKey: "onboardingDone") {
             showOnboarding()
@@ -74,6 +76,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func showStats() {
+        StreakStore.shared.settle()
         showWindow(title: "Stats", view: AnyView(StatsView()), size: NSSize(width: 600, height: 500))
     }
 

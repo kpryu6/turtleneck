@@ -42,6 +42,7 @@ class PostureService: ObservableObject {
     }
 
     private func evaluate(_ face: VNFaceObservation) {
+        StreakStore.shared.settle()
         guard !isPaused, let cal = calibration else { return }
         if settings.scheduleEnabled && !isWithinSchedule() { return }
         if isDisabledAppActive() { return }

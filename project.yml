@@ -28,6 +28,23 @@ targets:
         CODE_SIGN_IDENTITY: "-"
         CODE_SIGN_STYLE: Automatic
         ENABLE_APP_SANDBOX: NO
+
+  # Logic tests compile the non-UI sources directly, so running them does not
+  # launch the menu bar app (no camera prompt, no onboarding window).
+  TurtleNeckTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - TurtleNeckTests
+      - TurtleNeck/Models
+      - TurtleNeck/Services
+      - TurtleNeck/Views/TurtleOverlay.swift
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_VERSION: "5.9"
+        MACOSX_DEPLOYMENT_TARGET: "13.0"
+        CODE_SIGN_IDENTITY: "-"
 schemes:
   TurtleNeck:
     build:
@@ -35,3 +52,6 @@ schemes:
         TurtleNeck: all
     run:
       config: Debug
+    test:
+      targets:
+        - TurtleNeckTests

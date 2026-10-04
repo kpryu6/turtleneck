@@ -59,11 +59,7 @@ struct YearCalendarView: View {
     }
 
     private func scoreFor(date: Date) -> Int {
-        let cal = Calendar.current
-        let dayRecords = store.records.filter { cal.isDate($0.timestamp, inSameDayAs: date) }
-        if dayRecords.isEmpty { return -1 } // no data
-        let badSeconds = dayRecords.filter { $0.state != .good }.reduce(0) { $0 + $1.duration }
-        return max(0, 100 - Int(badSeconds / 60) * 5)
+        store.score(on: date) ?? -1 // -1 = no data
     }
 
     private func colorFor(score: Int) -> Color {

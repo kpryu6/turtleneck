@@ -12,9 +12,11 @@ class StatsStore: ObservableObject {
         let totalBadDuration: TimeInterval
     }
 
-    init() {
-        if let d = UserDefaults.standard.data(forKey: key) {
-            records = (try? JSONDecoder().decode([PostureRecord].self, from: d)) ?? []
+    init(records: [PostureRecord]? = nil) {
+        if let records {
+            self.records = records
+        } else if let d = UserDefaults.standard.data(forKey: key) {
+            self.records = (try? JSONDecoder().decode([PostureRecord].self, from: d)) ?? []
         }
     }
 
@@ -26,6 +28,15 @@ class StatsStore: ObservableObject {
     var todayRecords: [PostureRecord] {
         let cal = Calendar.current
         return records.filter { cal.isDateInToday($0.timestamp) }
+    }
+
+    /// 그날의 자세 점수 (나쁜 자세 1분당 -5점). 기록이 없는 날은 nil
+    func score(on date: Date) -> Int? {
+        let cal = Calendar.current
+        let dayRecords = records.filter { cal.isDate($0.timestamp, inSameDayAs: date) }
+        if dayRecords.isEmpty { return nil }
+        let badSeconds = dayRecords.filter { $0.state != .good }.reduce(0) { $0 + $1.duration }
+        return max(0, 100 - Int(badSeconds / 60) * 5)
     }
 
     var weeklyData: [DailyData] {

@@ -51,9 +51,9 @@ struct PostureRecord: Codable, Identifiable {
     let state: PostureState
     let duration: TimeInterval
 
-    init(state: PostureState, duration: TimeInterval) {
+    init(state: PostureState, duration: TimeInterval, timestamp: Date = Date()) {
         self.id = UUID()
-        self.timestamp = Date()
+        self.timestamp = timestamp
         self.state = state
         self.duration = duration
     }
