@@ -33,9 +33,8 @@ jobs:
     env:
       TAG: ${{ github.event.inputs.tag || github.event.workflow_run.head_branch }}
     steps:
+      # The default branch's script, so older tags can be (re)published too
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ env.TAG }}
 
       - uses: actions/checkout@v4
         with:
