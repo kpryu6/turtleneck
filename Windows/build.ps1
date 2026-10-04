@@ -31,10 +31,35 @@ Invoke-Checked python @('-m', 'PyInstaller', '--noconfirm', '--clean', '--window
     '--distpath', 'dist', '--workpath', 'build\pyinstaller', '--specpath', 'build',
     'main.py')
 
+Write-Host "🔧 Normalizing the C++ runtime..."
+# PyQt6 bundles an older msvcp140.dll. If that copy ends up in the bundle, MediaPipe's
+# native module fails with "DLL initialization routine failed" no matter the import
+# order. Replace every bundled MSVC runtime DLL with the newer system copy (the
+# runtime is backward compatible and redistributable).
+$sys32 = Join-Path $env:WINDIR 'System32'
+Get-ChildItem 'dist\TurtleNeck' -Recurse -Include 'msvcp140*.dll', 'vcruntime140*.dll', 'concrt140.dll' | ForEach-Object {
+    $src = Join-Path $sys32 $_.Name
+    $before = $_.VersionInfo.FileVersion
+    if (Test-Path $src) {
+        $after = (Get-Item $src).VersionInfo.FileVersion
+        if ([version]$after -gt [version]$before) { Copy-Item $src $_.FullName -Force }
+        Write-Host "   $($_.FullName.Substring((Resolve-Path 'dist').Path.Length + 1)): $before -> $((Get-Item $_.FullName).VersionInfo.FileVersion)"
+    }
+}
+
 Write-Host "🧪 Smoke test..."
+$log = Join-Path (Resolve-Path 'build').Path 'self-test.log'
+Remove-Item $log -ErrorAction SilentlyContinue
 $env:QT_QPA_PLATFORM = 'offscreen'
-$proc = Start-Process -FilePath 'dist\TurtleNeck\TurtleNeck.exe' -ArgumentList '--self-test' -Wait -PassThru
+$proc = Start-Process -FilePath 'dist\TurtleNeck\TurtleNeck.exe' -ArgumentList '--self-test', "`"$log`"" -PassThru
 Remove-Item Env:\QT_QPA_PLATFORM
+# A --windowed build shows a modal dialog on unhandled errors, which would hang CI
+if (-not $proc.WaitForExit(120000)) {
+    $proc | Stop-Process -Force
+    if (Test-Path $log) { Get-Content $log }
+    throw "Self-test timed out after 2 minutes"
+}
+if (Test-Path $log) { Get-Content $log }
 if ($proc.ExitCode -ne 0) { throw "Self-test failed with exit code $($proc.ExitCode)" }
 
 Write-Host "🗜️ Packaging..."
