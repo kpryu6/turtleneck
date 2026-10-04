@@ -79,89 +79,15 @@ class TurtleOverlay {
     }
 }
 
-// MARK: - 거북이 등딱지 아이콘 (위에서 본 모습)
+// MARK: - 거북이 (앱 아이콘과 같은 옆모습, 단계별 색)
 struct TurtleDrawing: View {
     let level: TurtleLevel
 
-    var shellColor: Color {
-        switch level {
-        case .gentle: return Color(nsColor: NSColor(red: 0.45, green: 0.32, blue: 0.22, alpha: 1))
-        case .annoyed: return .orange
-        case .angry: return .red
-        }
-    }
-
-    var limbColor: Color {
-        switch level {
-        case .gentle: return Color(nsColor: NSColor(red: 0.4, green: 0.6, blue: 0.3, alpha: 1))
-        case .annoyed: return Color(nsColor: NSColor(red: 0.6, green: 0.6, blue: 0.2, alpha: 1))
-        case .angry: return Color(nsColor: NSColor(red: 0.7, green: 0.3, blue: 0.3, alpha: 1))
-        }
-    }
-
     var body: some View {
-        Canvas { ctx, size in
-            let cx = size.width / 2
-            let cy = size.height / 2
-            let shellR: CGFloat = 16
-
-            // 다리 4개 (대각선)
-            let legSize: CGFloat = 9.0
-            let legDist: CGFloat = 14.0
-            for (dx, dy) in [(-1.0, -1.0), (1.0, -1.0), (-1.0, 1.0), (1.0, 1.0)] as [(CGFloat, CGFloat)] {
-                ctx.fill(Path(ellipseIn: CGRect(
-                    x: cx + dx * legDist - legSize/2,
-                    y: cy + dy * legDist - legSize/2,
-                    width: legSize, height: legSize)),
-                    with: .color(limbColor))
-            }
-
-            // 머리
-            ctx.fill(Path(ellipseIn: CGRect(x: cx - 6, y: cy - 26, width: 12, height: 14)),
-                     with: .color(limbColor))
-            // 눈
-            ctx.fill(Path(ellipseIn: CGRect(x: cx - 4, y: cy - 23, width: 3, height: 3)),
-                     with: .color(.black.opacity(0.7)))
-            ctx.fill(Path(ellipseIn: CGRect(x: cx + 1, y: cy - 23, width: 3, height: 3)),
-                     with: .color(.black.opacity(0.7)))
-
-            // 꼬리
-            let tail = Path { p in
-                p.move(to: CGPoint(x: cx - 2.5, y: cy + 18))
-                p.addLine(to: CGPoint(x: cx, y: cy + 25))
-                p.addLine(to: CGPoint(x: cx + 2.5, y: cy + 18))
-                p.closeSubpath()
-            }
-            ctx.fill(tail, with: .color(limbColor))
-
-            // 등딱지 원
-            ctx.fill(Path(ellipseIn: CGRect(x: cx - shellR, y: cy - shellR, width: shellR * 2, height: shellR * 2)),
-                     with: .color(shellColor))
-
-            // 육각형 패턴
-            let lineColor = shellColor.opacity(0.4)
-            let hexR: CGFloat = 7.0
-            // 중앙 육각형
-            let hexPath = Path { p in
-                for i in 0..<6 {
-                    let angle = CGFloat(i) * .pi / 3 - .pi / 6
-                    let px = cx + hexR * cos(angle)
-                    let py = cy + hexR * sin(angle)
-                    if i == 0 { p.move(to: CGPoint(x: px, y: py)) }
-                    else { p.addLine(to: CGPoint(x: px, y: py)) }
-                }
-                p.closeSubpath()
-            }
-            ctx.stroke(hexPath, with: .color(lineColor), lineWidth: 1.2)
-
-            // 중앙에서 바깥으로 선
-            for i in 0..<6 {
-                let angle = CGFloat(i) * .pi / 3 - .pi / 6
-                let line = Path { p in
-                    p.move(to: CGPoint(x: cx + hexR * cos(angle), y: cy + hexR * sin(angle)))
-                    p.addLine(to: CGPoint(x: cx + (shellR - 1) * cos(angle), y: cy + (shellR - 1) * sin(angle)))
-                }
-                ctx.stroke(line, with: .color(lineColor), lineWidth: 1.2)
+        Canvas { context, size in
+            context.withCGContext { cg in
+                TurtleArt.draw(in: cg, rect: CGRect(origin: .zero, size: size),
+                               palette: TurtleArt.palette(for: level))
             }
         }
         .frame(width: 50, height: 55)
@@ -200,8 +126,10 @@ struct TurtleBannerView: View {
         let char = MessageProvider.shared.selectedCharacter
         if let path = char.imagePath, let img = NSImage(contentsOfFile: path) {
             Image(nsImage: img).resizable().frame(width: 50, height: 50).clipShape(RoundedRectangle(cornerRadius: 10))
-        } else {
+        } else if char.name == CustomCharacter.turtle.name {
             TurtleDrawing(level: level)
+        } else {
+            Text(char.emoji).font(.system(size: 34)).frame(width: 50, height: 55)
         }
     }
 }

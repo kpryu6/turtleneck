@@ -23,8 +23,8 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.turtleneck.app
-        MARKETING_VERSION: "1.2.0"
-        CURRENT_PROJECT_VERSION: 4
+        MARKETING_VERSION: "1.2.1"
+        CURRENT_PROJECT_VERSION: 5
         SWIFT_VERSION: "5.9"
         MACOSX_DEPLOYMENT_TARGET: "13.0"
         CODE_SIGN_IDENTITY: "-"
@@ -41,6 +41,7 @@ targets:
       - TurtleNeck/Models
       - TurtleNeck/Services
       - TurtleNeck/Views/TurtleOverlay.swift
+      - TurtleNeck/Views/TurtleArt.swift
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES

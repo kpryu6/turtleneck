@@ -1,0 +1,80 @@
+name: Windows install test
+
+# End-to-end check of what a Windows user does: run install.ps1 in Windows
+# PowerShell 5.1, which installs the latest release, then make sure the app
+# starts and stays up. Uploads screenshots so the result can be eyeballed.
+# (No webcam on CI runners, so the app is expected to show its camera error.)
+on:
+  workflow_run:
+    workflows: ['Windows build']
+    types: [completed]
+  pull_request:
+    paths: ['install.ps1', '.github/workflows/windows-install-test.yml']
+  workflow_dispatch:
+
+jobs:
+  install:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       startsWith(github.event.workflow_run.head_branch, 'v'))
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install like a user (Windows PowerShell 5.1, irm | iex)
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Get-Content -Raw .\install.ps1 | Invoke-Expression
+
+      - name: Check installed files
+        shell: pwsh
+        run: |
+          $dir = "$env:LOCALAPPDATA\TurtleNeck"
+          $checks = [ordered]@{
+            'TurtleNeck.exe'          = Test-Path "$dir\TurtleNeck.exe"
+            'MediaPipe face model'    = Test-Path "$dir\_internal\mediapipe\modules\face_landmark\face_landmark_front_cpu.binarypb"
+            'Desktop shortcut'        = Test-Path "$([Environment]::GetFolderPath('Desktop'))\TurtleNeck.lnk"
+            'Start menu shortcut'     = Test-Path "$([Environment]::GetFolderPath('Programs'))\TurtleNeck.lnk"
+          }
+          $checks.GetEnumerator() | ForEach-Object { "{0,-22} {1}" -f $_.Key, $(if ($_.Value) { 'OK' } else { 'MISSING' }) }
+          if ($checks.Values -contains $false) { throw "Install is incomplete" }
+
+      - name: App keeps running after launch
+        shell: pwsh
+        run: |
+          Start-Sleep -Seconds 20
+          $p = Get-Process TurtleNeck -ErrorAction SilentlyContinue
+          if (-not $p) { throw "TurtleNeck.exe is not running 20s after install" }
+          "TurtleNeck running: PID $($p.Id), $([math]::Round($p.WorkingSet64 / 1MB)) MB"
+
+      - name: Screenshot desktop
+        if: always()
+        shell: pwsh
+        run: |
+          Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+          New-Item -ItemType Directory -Force shots | Out-Null
+          $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+          $bmp = New-Object System.Drawing.Bitmap $b.Width, $b.Height
+          [System.Drawing.Graphics]::FromImage($bmp).CopyFromScreen($b.Location, [System.Drawing.Point]::Empty, $b.Size)
+          $bmp.Save("shots\desktop.png")
+
+      - name: Render alerts with the installed build
+        if: always()
+        shell: pwsh
+        run: |
+          Get-Process TurtleNeck -ErrorAction SilentlyContinue | Stop-Process -Force
+          $env:QT_QPA_PLATFORM = 'offscreen'
+          $log = "$PWD\shots\self-test.log"
+          $p = Start-Process "$env:LOCALAPPDATA\TurtleNeck\TurtleNeck.exe" -ArgumentList '--self-test', "`"$log`"", '--shots', "`"$PWD\shots`"" -PassThru
+          if (-not $p.WaitForExit(120000)) { $p | Stop-Process -Force; throw "self-test timed out" }
+          Get-Content $log
+          if ($p.ExitCode -ne 0) { throw "self-test failed" }
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-install-screenshots
+          path: shots/

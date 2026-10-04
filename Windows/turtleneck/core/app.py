@@ -20,6 +20,7 @@ from turtleneck.core.i18n import t, set_language
 from turtleneck.core.break_reminder import BreakReminder
 from turtleneck.core.autostart import set_launch_at_login
 from turtleneck.ui.notification import show_turtle_notification
+from turtleneck.ui.turtle_art import tray_pixmap
 from turtleneck.ui.calibration_window import CalibrationWindow
 from turtleneck.ui.settings_window import SettingsWindow
 from turtleneck.ui.stats_window import StatsWindow
@@ -226,19 +227,7 @@ class TurtleNeckApp(QObject):
         return start_min <= now_min <= end_min
 
     def _update_tray_icon(self, state: PostureState):
-        colors = {PostureState.GOOD: "#4CAF50", PostureState.WARNING: "#FFC107", PostureState.BAD: "#F44336"}
-        color = QColor(colors[state])
-        px = QPixmap(32, 32)
-        px.fill(QColor(0, 0, 0, 0))
-        p = QPainter(px)
-        p.setBrush(color)
-        p.setPen(color)
-        # Simple turtle shell shape
-        p.drawEllipse(4, 4, 24, 24)
-        # Head
-        p.drawEllipse(22, 10, 8, 8)
-        p.end()
-        self.tray.setIcon(QIcon(px))
+        self.tray.setIcon(QIcon(tray_pixmap(state)))
 
     def _show_calibration_from_menu(self):
         self.camera.stop()
