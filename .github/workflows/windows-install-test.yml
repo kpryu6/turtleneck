@@ -76,7 +76,7 @@ jobs:
         shell: pwsh
         run: |
           Get-Process TurtleNeck -ErrorAction SilentlyContinue | Stop-Process -Force
-          $env:QT_QPA_PLATFORM = 'offscreen'
+          # Real Windows platform plugin (offscreen can't load Windows fonts)
           $log = "$PWD\shots\self-test.log"
           $p = Start-Process "$env:LOCALAPPDATA\TurtleNeck\TurtleNeck.exe" -ArgumentList '--self-test', "`"$log`"", '--shots', "`"$PWD\shots`"" -PassThru
           if (-not $p.WaitForExit(120000)) { $p | Stop-Process -Force; throw "self-test timed out" }

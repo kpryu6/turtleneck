@@ -41,6 +41,10 @@ def self_test(log_path: str = "", shots_dir: str = "") -> int:
         from turtleneck.ui.notification import TurtleOverlay
 
         _app = QApplication(sys.argv)
+        from PyQt6.QtGui import QPixmap
+        from turtleneck.resources import ICON_PATH
+        if QPixmap(ICON_PATH).isNull():
+            raise FileNotFoundError(f"App icon missing from bundle: {ICON_PATH}")
         cam = CameraService()
         cam._face_mesh.process(np.zeros((480, 640, 3), dtype=np.uint8))
         TurtleOverlay().show_alert(TurtleLevel.GENTLE, "self-test", PRESETS[0])
@@ -98,8 +102,11 @@ def main():
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("kpryu6.TurtleNeck")
 
     from turtleneck.core.app import TurtleNeckApp
+    from PyQt6.QtGui import QIcon
+    from turtleneck.resources import ICON_PATH
     app = QApplication(sys.argv)
     app.setApplicationName("TurtleNeck")
+    app.setWindowIcon(QIcon(ICON_PATH))  # title bars and taskbar
     app.setQuitOnLastWindowClosed(False)
     turtle = TurtleNeckApp()
     turtle.start()

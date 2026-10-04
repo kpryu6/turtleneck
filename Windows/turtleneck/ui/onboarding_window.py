@@ -1,6 +1,8 @@
 """Onboarding — 3-page welcome flow."""
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPixmap
+from turtleneck.resources import ICON_PATH
 from turtleneck.core.i18n import t
 
 class OnboardingWindow(QWidget):
@@ -19,7 +21,11 @@ class OnboardingWindow(QWidget):
         p1 = QWidget()
         l1 = QVBoxLayout(p1)
         l1.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        l1.addWidget(self._centered("🐢", 60))
+        icon = QLabel()
+        icon.setPixmap(QPixmap(ICON_PATH).scaled(
+            96, 96, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+        icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        l1.addWidget(icon)
         l1.addWidget(self._centered(t("welcome"), 22, bold=True))
         l1.addWidget(self._centered("Your friendly posture guardian that\nkeeps your neck in check.", 13, color="gray"))
         self.stack.addWidget(p1)
