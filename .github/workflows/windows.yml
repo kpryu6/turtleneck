@@ -11,7 +11,9 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: write  # attach the zip to the GitHub Release on tag pushes
+      contents: write      # attach the zip to the GitHub Release on tag pushes
+      id-token: write      # build provenance attestation
+      attestations: write
     steps:
       - uses: actions/checkout@v4
 
@@ -39,6 +41,12 @@ jobs:
         with:
           name: TurtleNeck-Windows-x64
           path: Windows/dist/TurtleNeck-Windows-x64.zip
+
+      # Verify with: gh attestation verify TurtleNeck-Windows-x64.zip --repo kpryu6/turtleneck
+      - uses: actions/attest-build-provenance@v2
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          subject-path: Windows/dist/TurtleNeck-Windows-x64.zip
 
       - name: Attach to release
         if: startsWith(github.ref, 'refs/tags/v')

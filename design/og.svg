@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="ogglow" cx="0.3" cy="0.5" r="0.7">
+      <stop offset="0" stop-color="#3DE0A4" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#3DE0A4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#07100D"/>
+  <rect width="1200" height="630" fill="url(#ogglow)"/>
+  <svg x="70" y="135" width="360" height="360" viewBox="0 0 1024 1024">
+    <defs>    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#18382F"/>
+      <stop offset="1" stop-color="#060E0B"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.58" r="0.55">
+      <stop offset="0" stop-color="#3DE0A4" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#3DE0A4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#B4FADB"/>
+      <stop offset="1" stop-color="#2DBE89"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#93F1C9"/>
+      <stop offset="1" stop-color="#3FC995"/>
+    </linearGradient>
+    <radialGradient id="shadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#000" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="squircle">
+      <rect x="100" y="100" width="824" height="824" rx="186"/>
+    </clipPath>
+    <clipPath id="dome">
+      <path d="M284 636 C284 470 380 392 500 392 C620 392 716 470 716 636 Z"/>
+    </clipPath></defs>
+    
+  <!-- macOS icon grid: 824x824 rounded square -->
+  <g clip-path="url(#squircle)">
+    <rect x="100" y="100" width="824" height="824" fill="url(#bg)"/>
+    <rect x="100" y="100" width="824" height="824" fill="url(#glow)"/>
+  </g>
+  <rect x="101" y="101" width="822" height="822" rx="185" fill="none" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="2"/>
+
+  <!-- posture guide: head stacked straight above the shoulders -->
+  <line x1="682" y1="176" x2="682" y2="800" stroke="#8FF5CB" stroke-opacity="0.55"
+        stroke-width="8" stroke-linecap="round" stroke-dasharray="2 24"/>
+
+  <ellipse cx="512" cy="742" rx="250" ry="26" fill="url(#shadow)"/>
+
+  <!-- legs + tail -->
+  <rect x="356" y="606" width="80" height="122" rx="40" fill="url(#skin)"/>
+  <rect x="572" y="606" width="80" height="122" rx="40" fill="url(#skin)"/>
+  <path d="M300 606 Q262 622 248 660 Q292 658 320 636 Z" fill="url(#skin)"/>
+
+  <!-- upright neck + head -->
+  <rect x="646" y="320" width="72" height="300" rx="36" fill="url(#skin)"/>
+  <circle cx="682" cy="306" r="86" fill="url(#skin)"/>
+  <circle cx="716" cy="290" r="14" fill="#0A1D17"/>
+  <circle cx="721" cy="285" r="4.5" fill="#FFFFFF" fill-opacity="0.9"/>
+
+  <!-- shell -->
+  <path d="M284 636 C284 470 380 392 500 392 C620 392 716 470 716 636 Z" fill="url(#shell)"/>
+  <g clip-path="url(#dome)" fill="none" stroke="#1C9A6B" stroke-opacity="0.45" stroke-width="9" stroke-linejoin="round">
+    <path d="M500 452 L552 482 L552 542 L500 572 L448 542 L448 482 Z"/>
+    <path d="M552 482 L604 452 L656 482 L656 542 L604 572 L552 542"/>
+    <path d="M448 482 L396 452 L344 482 L344 542 L396 572 L448 542"/>
+    <path d="M500 452 L500 392 M500 572 L500 636 M604 572 L604 636 M396 572 L396 636"/>
+  </g>
+  <!-- soft top highlight -->
+  <path d="M352 470 C380 430 430 410 480 408" fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="12" stroke-linecap="round"/>
+  <rect x="270" y="612" width="460" height="48" rx="24" fill="#1FA674"/>
+  </svg>
+  <text x="470" y="270" font-family="Inter, Helvetica Neue, Helvetica, Arial, sans-serif" font-size="76" font-weight="700" fill="#F2F7F4" letter-spacing="-2">TurtleNeck</text>
+  <text x="472" y="340" font-family="Inter, Helvetica Neue, Helvetica, Arial, sans-serif" font-size="34" fill="#93A59D">A sassy turtle that fixes your posture.</text>
+  <text x="472" y="400" font-family="Inter, Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" fill="#5FE3AD">Free · Open source · 100% on-device · macOS &amp; Windows</text>
+</svg>

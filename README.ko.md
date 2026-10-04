@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🐢 TurtleNeck
+<img src="design/app-icon.svg" width="128" alt="TurtleNeck app icon">
+
+# TurtleNeck
 
 **거북목을 고쳐주는 잔소리꾼 거북이**
 
@@ -12,7 +14,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-blue?logo=kofi)](https://ko-fi.com/kpryu)
 
-[English](README.md) · **한국어**
+**[웹사이트](https://kpryu6.github.io/turtleneck/)** · [English](README.md) · **한국어**
 
 <img src="docs/images/alerts.png" width="500" alt="갈색 거북이에서 빨간 거북이로 점점 화가 나는 TurtleNeck 알림">
 
@@ -82,6 +84,14 @@ irm https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.ps1 | iex
 ## 개인정보
 
 모든 처리는 Mac 안에서만 이뤄져요. **카메라 영상은 녹화하지도, 저장하지도, 어디로 보내지도 않아요.** 서버도, 분석 도구도, 계정도 없어요. 기준 자세와 비교하기 위한 얼굴 위치와 크기만 기억해요.
+
+## 다운로드 파일 검증
+
+모든 릴리스는 이 저장소에서 GitHub Actions가 빌드하고, 서명된 [빌드 출처 증명](https://docs.github.com/actions/security-for-github-actions/using-artifact-attestations)이 붙어요. 받은 파일이 정말 여기서 만들어졌는지 확인하려면:
+
+```bash
+gh attestation verify TurtleNeck.dmg --repo kpryu6/turtleneck
+```
 
 ## 자주 묻는 질문
 

@@ -11,7 +11,9 @@ jobs:
   build:
     runs-on: macos-latest
     permissions:
-      contents: write  # attach the DMG to the GitHub Release on tag pushes
+      contents: write      # attach the DMG to the GitHub Release on tag pushes
+      id-token: write      # build provenance attestation
+      attestations: write
     steps:
       - uses: actions/checkout@v4
 
@@ -35,6 +37,18 @@ jobs:
           name: TurtleNeck-macOS
           path: build/TurtleNeck-*.dmg
 
+      # Stable name so the website can link releases/latest/download/TurtleNeck.dmg
+      - name: Stable-named copy
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: cp build/TurtleNeck-*.dmg build/TurtleNeck.dmg
+
+      # Signed statement that these files were built from this commit by this workflow.
+      # Verify with: gh attestation verify TurtleNeck.dmg --repo kpryu6/turtleneck
+      - uses: actions/attest-build-provenance@v2
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          subject-path: build/TurtleNeck*.dmg
+
       - name: Attach to release
         if: startsWith(github.ref, 'refs/tags/v')
         env:
@@ -43,4 +57,4 @@ jobs:
         run: |
           # The Windows workflow may create the release for the same tag at the same time
           gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "TurtleNeck $TAG" --generate-notes || true
-          gh release upload "$TAG" build/TurtleNeck-*.dmg --clobber
+          gh release upload "$TAG" build/TurtleNeck*.dmg --clobber
