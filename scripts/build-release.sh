@@ -49,5 +49,5 @@ SHA=$(shasum -a 256 "$BUILD_DIR/${APP_NAME}-${VERSION}.dmg" | awk '{print $1}')
 echo "🔑 SHA256: $SHA"
 echo ""
 echo "📋 For Homebrew formula, use:"
-echo "   url: https://github.com/YOURUSERNAME/TurtleNeck/releases/download/v${VERSION}/${APP_NAME}-${VERSION}.dmg"
+echo "   url: https://github.com/kpryu6/turtleneck/releases/download/v${VERSION}/${APP_NAME}-${VERSION}.dmg"
 echo "   sha256: $SHA"

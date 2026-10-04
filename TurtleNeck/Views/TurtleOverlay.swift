@@ -18,7 +18,8 @@ class TurtleOverlay {
         panel?.close()
         panel = nil
 
-        let screen = NSScreen.main!.visibleFrame
+        // 디스플레이가 없는 순간(덮개 닫힘 등)엔 띄우지 않는다
+        guard let screen = (NSScreen.main ?? NSScreen.screens.first)?.visibleFrame else { return }
         let w: CGFloat = 320
         let h: CGFloat = 110
         let x = screen.maxX - w - 16
@@ -59,7 +60,11 @@ class TurtleOverlay {
 
     private func dismiss() {
         guard let p = panel else { return }
-        let screen = NSScreen.main!.visibleFrame
+        guard let screen = (p.screen ?? NSScreen.main)?.visibleFrame else {
+            p.close()
+            panel = nil
+            return
+        }
         NSAnimationContext.runAnimationGroup({ ctx in
             ctx.duration = 0.3
             ctx.timingFunction = CAMediaTimingFunction(name: .easeIn)

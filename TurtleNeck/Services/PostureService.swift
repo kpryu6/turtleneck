@@ -21,6 +21,8 @@ class PostureService: ObservableObject {
     private var calibration: CalibrationData? { CalibrationStore.shared.data }
 
     func start() {
+        // 재캘리브레이션 후 "Start"로 다시 불려도 구독이 중복되지 않도록
+        guard cancellables.isEmpty else { return }
         camera.start()
         camera.$faceLandmarks
             .compactMap { $0 }
@@ -123,18 +125,41 @@ class PostureService: ObservableObject {
     }
 
     private func isFocusModeActive() -> Bool {
-        // macOS Focus/DND 상태 확인 — 알림 설정에서 DND 활성 여부
-        let center = DistributedNotificationCenter.default()
-        // 직접 API가 없으므로 assertionStatus 확인
-        let task = Process()
-        task.launchPath = "/usr/bin/defaults"
-        task.arguments = ["-currentHost", "read", "com.apple.notificationcenterui", "doNotDisturb"]
-        let pipe = Pipe()
-        task.standardOutput = pipe
-        task.standardError = pipe
-        try? task.run()
-        task.waitUntilExit()
-        let output = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
-        return output.trimmingCharacters(in: .whitespacesAndNewlines) == "1"
+        FocusModeDetector.shared.isActive
+    }
+}
+
+/// macOS 집중 모드(Focus) 감지.
+/// Monterey 이후 집중 모드 상태는 `com.apple.notificationcenterui doNotDisturb` 대신
+/// ~/Library/DoNotDisturb/DB/Assertions.json 에 기록된다. 이 파일은 시스템이 보호하므로
+/// 읽기 권한(전체 디스크 접근)이 없으면 false로 처리한다.
+/// 매초 파일을 읽지 않도록 결과를 일정 시간 캐시한다.
+final class FocusModeDetector {
+    static let shared = FocusModeDetector()
+
+    private let cacheInterval: TimeInterval = 30
+    private var cachedValue = false
+    private var lastCheck: Date?
+
+    private var assertionsURL: URL {
+        FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Library/DoNotDisturb/DB/Assertions.json")
+    }
+
+    var isActive: Bool {
+        if let last = lastCheck, Date().timeIntervalSince(last) < cacheInterval {
+            return cachedValue
+        }
+        lastCheck = Date()
+        cachedValue = readAssertions()
+        return cachedValue
+    }
+
+    private func readAssertions() -> Bool {
+        guard let data = try? Data(contentsOf: assertionsURL),
+              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let entries = json["data"] as? [[String: Any]] else { return false }
+        // 집중 모드가 켜져 있으면 storeAssertionRecords 에 항목이 하나 이상 있다
+        return entries.contains { ($0["storeAssertionRecords"] as? [Any])?.isEmpty == false }
     }
 }

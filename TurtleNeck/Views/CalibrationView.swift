@@ -29,7 +29,8 @@ class FlippedView: NSView {
 }
 
 struct CalibrationView: View {
-    @StateObject private var camera = CameraService()
+    // 기준 자세는 카운트다운 끝 시점의 얼굴로 잡으므로 상시 감지(1초)보다 자주 분석
+    @StateObject private var camera = CameraService(analysisInterval: 0.2)
     @State private var countdown = 5
     @State private var isCalibrating = false
     @State private var isDone = false
