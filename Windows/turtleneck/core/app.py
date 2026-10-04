@@ -4,7 +4,7 @@ import threading
 import webbrowser
 from typing import Optional
 
-from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QApplication
+from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QApplication, QMessageBox
 from PyQt6.QtGui import QIcon, QPixmap, QPainter, QColor, QAction
 from PyQt6.QtCore import QTimer, QObject, pyqtSignal
 
@@ -17,6 +17,8 @@ from turtleneck.core.settings import SettingsStore
 from turtleneck.core.stats import StatsStore, StreakStore
 from turtleneck.core.messages import MessageProvider
 from turtleneck.core.i18n import t, set_language
+from turtleneck.core.break_reminder import BreakReminder
+from turtleneck.core.autostart import set_launch_at_login
 from turtleneck.ui.notification import show_turtle_notification
 from turtleneck.ui.calibration_window import CalibrationWindow
 from turtleneck.ui.settings_window import SettingsWindow
@@ -43,17 +45,19 @@ class TurtleNeckApp(QObject):
         self.level = TurtleLevel.GENTLE
         self.good_start: Optional[float] = None
         self.paused = False
+        self.tray: Optional[QSystemTrayIcon] = None
 
-        # Break reminder
-        self.break_timer: Optional[QTimer] = None
-        self.break_remaining = 0
-        self.is_break_time = False
+        self.break_reminder = BreakReminder(
+            on_break_start=lambda: show_turtle_notification(TurtleLevel.ANNOYED, t("break_start"), self.messages.character),
+            on_break_end=lambda: show_turtle_notification(TurtleLevel.GENTLE, t("break_end"), self.messages.character),
+        )
 
         set_language(self.settings_store.settings.language)
         self.face_signal.connect(self._on_face)
 
     def start(self):
-        onboarding_done = self.settings_store.settings.launch_at_login or self.calibration.is_calibrated
+        self._apply_settings()
+        self.streak.settle(self.stats)
         if not self.calibration.is_calibrated:
             self._show_onboarding()
         else:
@@ -72,6 +76,7 @@ class TurtleNeckApp(QObject):
         self._cal_win = CalibrationWindow(
             camera=self.camera,
             on_done=self._on_calibration_done,
+            on_cancel=self._on_calibration_cancel,
         )
         self._cal_win.show()
 
@@ -81,7 +86,18 @@ class TurtleNeckApp(QObject):
         self._setup_tray()
         self._start_camera()
 
+    def _on_calibration_cancel(self):
+        # Window closed mid-recalibration: keep monitoring with the previous baseline.
+        # On first run there is no baseline yet, so there is nothing to monitor.
+        if self.calibration.is_calibrated:
+            self._setup_tray()
+            self._start_camera()
+        elif self.tray is None:
+            QApplication.quit()
+
     def _setup_tray(self):
+        if self.tray is not None:  # recalibration reuses the existing icon
+            return
         self.tray = QSystemTrayIcon()
         self._update_tray_icon(PostureState.GOOD)
         self.tray.setToolTip("TurtleNeck — " + t("good"))
@@ -99,17 +115,45 @@ class TurtleNeckApp(QObject):
         menu.addSeparator()
         menu.addAction(t("buy_coffee"), lambda: webbrowser.open("https://ko-fi.com/kpryu"))
         menu.addSeparator()
-        menu.addAction(t("quit"), QApplication.quit)
+        menu.addAction(t("quit"), self._quit)
 
+        self._break_action = QAction("", menu)
+        self._break_action.setEnabled(False)
+        menu.insertAction(menu.actions()[1], self._break_action)
+        menu.aboutToShow.connect(self._refresh_break_status)
+
+        self._menu = menu  # QSystemTrayIcon does not take ownership of the menu
         self.tray.setContextMenu(menu)
         self.tray.show()
 
     def _start_camera(self):
+        if self.paused:
+            return
         self.camera.on_face_detected = lambda face: self.face_signal.emit(face)
-        self.camera.start()
+        if not self.camera.start():
+            QMessageBox.warning(None, "TurtleNeck", self.camera.last_error or "Could not open the webcam.")
+
+    def _refresh_break_status(self):
+        text = self.break_reminder.status_text()
+        self._break_action.setVisible(text is not None)
+        if text:
+            self._break_action.setText(f"{t('break_reminder')}: {text}")
+
+    def _apply_settings(self):
+        s = self.settings_store.settings
+        self.break_reminder.configure(s.break_enabled, s.break_work_min, s.break_rest_min)
+        set_launch_at_login(s.launch_at_login)
+
+    def _quit(self):
+        self.camera.stop()
+        QApplication.quit()
 
     def _on_face(self, face: FaceData):
+        self.streak.settle(self.stats)  # no-op unless the date changed
         if self.paused or not self.calibration.data:
+            return
+        cal_win = getattr(self, "_cal_win", None)
+        if cal_win is not None and cal_win.isVisible():  # don't nag while recalibrating
             return
 
         s = self.settings_store.settings
@@ -170,7 +214,7 @@ class TurtleNeckApp(QObject):
         if self.paused:
             self.camera.stop()
         else:
-            self.camera.start()
+            self._start_camera()
 
     def _in_schedule(self) -> bool:
         s = self.settings_store.settings
@@ -201,10 +245,11 @@ class TurtleNeckApp(QObject):
         self._show_calibration()
 
     def _show_settings(self):
-        self._settings_win = SettingsWindow(self.settings_store)
+        self._settings_win = SettingsWindow(self.settings_store, on_saved=self._apply_settings)
         self._settings_win.show()
 
     def _show_stats(self):
+        self.streak.settle(self.stats)
         self._stats_win = StatsWindow(self.stats, self.streak)
         self._stats_win.show()
 

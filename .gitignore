@@ -17,3 +17,6 @@ __pycache__/
 *.pyc
 *.egg-info/
 .venv/
+
+# Windows build output
+Windows/dist/

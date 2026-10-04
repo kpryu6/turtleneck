@@ -49,7 +49,13 @@ xattr -cr /Applications/TurtleNeck.app
 
 ### Windows (베타)
 
-Windows 버전은 아직 macOS 버전을 따라가는 중이에요. 되는 기능과 설치 방법은 [Windows/README.md](Windows/README.md)를 보세요.
+PowerShell을 열고 실행하세요:
+
+```powershell
+irm https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.ps1 | iex
+```
+
+최신 릴리스의 `TurtleNeck.exe`를 설치해서 Python이 필요 없어요. Windows 버전에는 아직 macOS 기능이 다 들어 있지는 않아요. 되는 기능은 [Windows/README.md](Windows/README.md)를 보세요.
 
 ## 동작 방식
 
