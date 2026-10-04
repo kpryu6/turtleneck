@@ -7,11 +7,12 @@ from turtleneck.core.settings import SettingsStore
 from turtleneck.core.i18n import t, set_language, LANGUAGES
 
 class SettingsWindow(QWidget):
-    def __init__(self, store: SettingsStore):
+    def __init__(self, store: SettingsStore, on_saved=None):
         super().__init__()
         self.store = store
+        self.on_saved = on_saved
         self.setWindowTitle(t("settings"))
-        self.setFixedSize(420, 550)
+        self.setFixedSize(420, 600)
         self._build_ui()
 
     def _build_ui(self):
@@ -52,9 +53,12 @@ class SettingsWindow(QWidget):
         form2.addRow(h)
         layout.addWidget(grp2)
 
-        # Language
-        grp3 = QGroupBox(t("language"))
+        # General
+        grp3 = QGroupBox(t("general"))
         form3 = QFormLayout(grp3)
+        self.login_on = QCheckBox(t("launch_at_login"))
+        self.login_on.setChecked(s.launch_at_login)
+        form3.addRow(self.login_on)
         self.lang = QComboBox()
         for code, name in LANGUAGES.items():
             self.lang.addItem(name, code)
@@ -101,9 +105,12 @@ class SettingsWindow(QWidget):
         s.schedule_start_hour = self.sched_start.value()
         s.schedule_end_hour = self.sched_end.value()
         s.language = self.lang.currentData()
+        s.launch_at_login = self.login_on.isChecked()
         s.break_enabled = self.break_on.isChecked()
         s.break_work_min = self.break_work.value()
         s.break_rest_min = self.break_rest.value()
         set_language(s.language)
         self.store.save()
+        if self.on_saved:
+            self.on_saved()
         self.close()

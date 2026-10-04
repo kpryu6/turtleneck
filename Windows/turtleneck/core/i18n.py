@@ -41,6 +41,10 @@ _S = {
     "welcome": {"en":"Welcome to TurtleNeck","ko":"TurtleNeck에 오신 것을 환영합니다","ja":"TurtleNeckへようこそ","zh":"欢迎使用TurtleNeck","es":"Bienvenido a TurtleNeck","de":"Willkommen bei TurtleNeck","fr":"Bienvenue sur TurtleNeck","pt":"Bem-vindo ao TurtleNeck"},
     "next": {"en":"Next","ko":"다음","ja":"次へ","zh":"下一步","es":"Siguiente","de":"Weiter","fr":"Suivant","pt":"Próximo"},
     "back": {"en":"Back","ko":"뒤로","ja":"戻る","zh":"返回","es":"Atrás","de":"Zurück","fr":"Retour","pt":"Voltar"},
+    "start_calibration": {"en":"Start Calibration","ko":"캘리브레이션 시작","ja":"キャリブレーション開始","zh":"开始校准","es":"Iniciar calibración","de":"Kalibrierung starten","fr":"Démarrer la calibration","pt":"Iniciar calibração"},
+    "launch_at_login": {"en":"Launch at login","ko":"로그인 시 자동 실행","ja":"ログイン時に起動","zh":"登录时启动","es":"Abrir al iniciar sesión","de":"Beim Anmelden starten","fr":"Lancer à l'ouverture de session","pt":"Abrir ao iniciar sessão"},
+    "break_start": {"en":"Time for a break! Stand up, stretch, move around 🧘","ko":"쉴 시간이에요! 일어나서 스트레칭 좀 해요 🧘","ja":"休憩の時間！立ってストレッチしよう 🧘","zh":"该休息了！站起来伸展一下 🧘","es":"¡Hora de un descanso! Levántate y estírate 🧘","de":"Pausenzeit! Steh auf und streck dich 🧘","fr":"C'est l'heure de la pause ! Levez-vous et étirez-vous 🧘","pt":"Hora da pausa! Levante-se e alongue-se 🧘"},
+    "break_end": {"en":"Break's over! Back to work with good posture 💪","ko":"휴식 끝! 바른 자세로 다시 시작해요 💪","ja":"休憩終わり！良い姿勢で再開しよう 💪","zh":"休息结束！保持好姿势继续工作 💪","es":"¡Se acabó el descanso! A trabajar con buena postura 💪","de":"Pause vorbei! Weiter mit guter Haltung 💪","fr":"Pause terminée ! On reprend avec une bonne posture 💪","pt":"Fim da pausa! De volta ao trabalho com boa postura 💪"},
     "get_started": {"en":"Get Started","ko":"시작하기","ja":"始める","zh":"开始使用","es":"Comenzar","de":"Los geht's","fr":"Commencer","pt":"Começar"},
 }
 

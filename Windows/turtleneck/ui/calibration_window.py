@@ -1,23 +1,29 @@
 """Calibration window with camera preview."""
 import time
 import cv2
-import numpy as np
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QProgressBar
 from PyQt6.QtGui import QImage, QPixmap
-from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtCore import Qt, QTimer, pyqtSignal
 from turtleneck.core.camera import CameraService
 from turtleneck.core.posture import CalibrationData
 from turtleneck.core.i18n import t
 
 class CalibrationWindow(QWidget):
-    def __init__(self, camera: CameraService, on_done):
+    # Camera frames arrive on the capture thread; Qt widgets may only be touched on
+    # the GUI thread, so frames are handed over through a (queued) signal.
+    frame_ready = pyqtSignal(object)
+
+    def __init__(self, camera: CameraService, on_done, on_cancel=None):
         super().__init__()
         self.camera = camera
         self.on_done = on_done
+        self.on_cancel = on_cancel
         self.countdown = 0
+        self._finished = False
         self.setWindowTitle(t("calibration"))
         self.setFixedSize(500, 520)
         self._build_ui()
+        self.frame_ready.connect(self._update_frame)
         self._start_preview()
 
     def _build_ui(self):
@@ -57,8 +63,26 @@ class CalibrationWindow(QWidget):
         layout.addWidget(self.privacy)
 
     def _start_preview(self):
-        self.camera.on_frame = self._update_frame
-        self.camera.start()
+        self.camera.on_frame = self.frame_ready.emit
+        # Baseline is taken from the latest face at the end of the countdown,
+        # so analyze more often than during normal monitoring
+        self.camera.analysis_interval = 0.2
+        if not self.camera.start():
+            self.preview.setText("📷 ❌")
+            self.info.setText(self.camera.last_error or "")
+            self.info.setStyleSheet("color: #d32f2f;")
+            self.btn.setText("Retry")
+            self.btn.clicked.disconnect()
+            self.btn.clicked.connect(self._retry_camera)
+
+    def _retry_camera(self):
+        self.info.setStyleSheet("")
+        self.info.setText(t("sit_straight"))
+        self.btn.setText(t("start_calibration"))
+        self.btn.clicked.disconnect()
+        self.btn.clicked.connect(self._start_countdown)
+        self.preview.clear()
+        self._start_preview()
 
     def _update_frame(self, frame):
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -74,7 +98,7 @@ class CalibrationWindow(QWidget):
         self.btn.setEnabled(False)
         self.progress.setVisible(True)
         self.info.setText(t("hold_posture"))
-        self._timer = QTimer()
+        self._timer = QTimer(self)
         self._timer.timeout.connect(self._tick)
         self._timer.start(1000)
 
@@ -100,14 +124,24 @@ class CalibrationWindow(QWidget):
             nose_x=face.nose_x,
             timestamp=time.time(),
         )
-        self.camera.on_frame = None
-        self.camera.stop()
+        self._release_camera()
         self.info.setText(t("calibration_done"))
         self.btn.setText(t("start"))
         self.btn.setEnabled(True)
         self.btn.clicked.disconnect()
-        self.btn.clicked.connect(lambda: self.on_done(data))
+        self.btn.clicked.connect(lambda: self._finish(data))
+
+    def _finish(self, data: CalibrationData):
+        self._finished = True
+        self.on_done(data)
+
+    def _release_camera(self):
+        self.camera.on_frame = None
+        self.camera.analysis_interval = 1.0
+        self.camera.stop()
 
     def closeEvent(self, event):
-        self.camera.on_frame = None
+        self._release_camera()
+        if not self._finished and self.on_cancel:
+            self.on_cancel()
         super().closeEvent(event)

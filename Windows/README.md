@@ -1,13 +1,23 @@
-# 🐢 TurtleNeck for Windows
+# 🐢 TurtleNeck for Windows (beta)
 
-Python + MediaPipe + PyQt6 version of TurtleNeck for Windows.
+The Windows version of TurtleNeck, built with Python, MediaPipe and PyQt6.
 
-## Requirements
+## Install
 
-- Python 3.10+
-- Webcam
+Open PowerShell and run:
 
-## Install & Run
+```powershell
+irm https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.ps1 | iex
+```
+
+- If the latest [Release](https://github.com/kpryu6/turtleneck/releases) has a Windows build, the installer downloads `TurtleNeck.exe`. You don't need Python.
+- If it doesn't, the installer sets up TurtleNeck from source. That needs **Python 3.10–3.12**, because mediapipe doesn't support newer versions yet. Get it from [python.org](https://www.python.org/downloads/).
+
+The installer adds TurtleNeck to `%LOCALAPPDATA%\TurtleNeck` and creates Desktop and Start menu shortcuts. TurtleNeck runs in the **system tray**; look for the turtle under **^** next to the clock.
+
+> Windows SmartScreen may warn about the app because it isn't code-signed yet. Click **More info → Run anyway**.
+
+### Run from source
 
 ```bash
 cd Windows
@@ -15,49 +25,72 @@ pip install -r requirements.txt
 python main.py
 ```
 
-## Features
+## What works
 
-All features from the macOS version:
+| Feature | Windows |
+|---|---|
+| Posture detection (MediaPipe Face Mesh) | ✅ |
+| Slide-in turtle alerts that escalate (Gentle → Annoyed → Angry) | ✅ |
+| Custom characters and messages | ✅ |
+| Daily stats and weekly trend | ✅ |
+| Break reminder (Pomodoro style) | ✅ |
+| Work-hours schedule, sensitivity, cooldown | ✅ |
+| Launch at login | ✅ |
+| 8 languages | ✅ |
+| Year calendar, pause per app, pause during Focus Assist | ❌ macOS only for now |
 
-- 🎯 Real-time posture detection via MediaPipe Face Mesh
-- 📈 Escalating alerts (Gentle → Annoyed → Angry)
-- 📊 Daily stats, weekly trends, streak tracking
-- ⚙️ Sensitivity, cooldown, schedule settings
-- 🎨 Custom characters & messages
-- ☕ Break reminder (Pomodoro style)
-- 🌍 8 languages (EN, KO, JA, ZH, ES, DE, FR, PT)
-- 🔒 100% local processing — no video stored
+Everything is processed locally. No video is stored or sent anywhere.
 
-## Project Structure
+## Troubleshooting
+
+**"Could not open the webcam"**
+Close other apps that use the camera (Teams, Zoom, the Camera app), then click **Retry**. Also check **Settings → Privacy & security → Camera** and make sure desktop apps are allowed to use it.
+
+**No turtle appears in the tray**
+Windows may hide new tray icons. Click **^** next to the clock and drag the turtle onto the taskbar.
+
+## Building the .exe
+
+On Windows with Python 3.10–3.12:
+
+```powershell
+.\Windows\build.ps1
+```
+
+This builds `Windows\dist\TurtleNeck-Windows-x64.zip` with PyInstaller and runs a self-test (`TurtleNeck.exe --self-test`). It checks that the bundled MediaPipe models load and the UI starts, so a broken build fails before it ships.
+
+GitHub Actions ([`.github/workflows/windows.yml`](../.github/workflows/windows.yml)) runs the same build on every pull request that touches `Windows/`. When a `v*` tag is pushed, it attaches the zip to that GitHub Release.
+
+## Project structure
 
 ```
 Windows/
-├── main.py                          # Entry point
+├── main.py                      # Entry point (+ --self-test)
+├── build.ps1                    # PyInstaller build + smoke test
 ├── requirements.txt
 └── turtleneck/
     ├── core/
-    │   ├── app.py                   # Main orchestrator
-    │   ├── camera.py                # Webcam + MediaPipe Face Mesh
-    │   ├── posture.py               # Posture analysis + calibration
-    │   ├── settings.py              # Settings persistence
-    │   ├── stats.py                 # Statistics + streak
-    │   ├── messages.py              # Sassy messages + characters
-    │   └── i18n.py                  # 8-language localization
+    │   ├── app.py               # Tray app, wires everything together
+    │   ├── camera.py            # Webcam + MediaPipe Face Mesh
+    │   ├── posture.py           # Posture analysis + calibration
+    │   ├── break_reminder.py    # Pomodoro timer
+    │   ├── autostart.py         # Launch at login (HKCU Run key)
+    │   ├── settings.py / stats.py / messages.py / i18n.py
     └── ui/
-        ├── notification.py          # Windows toast notifications
-        ├── calibration_window.py    # Camera preview + calibration
-        ├── settings_window.py       # Settings GUI
-        ├── stats_window.py          # Stats dashboard
-        ├── customize_window.py      # Character + message editor
-        └── onboarding_window.py     # Welcome flow
+        ├── notification.py      # Slide-in turtle alert
+        ├── calibration_window.py
+        ├── settings_window.py
+        ├── stats_window.py
+        ├── customize_window.py
+        └── onboarding_window.py
 ```
 
-## Data Storage
+## Data
 
-All data stored in `~/.turtleneck/`:
-- `calibration.json` — posture baseline
-- `settings.json` — user preferences
-- `stats.json` — posture records (30-day retention)
-- `streak.json` — consecutive good days
-- `messages.json` — custom messages
-- `character.json` — selected character
+All data is stored in `~/.turtleneck/` (`%USERPROFILE%\.turtleneck`):
+
+- `calibration.json`: posture baseline
+- `settings.json`: preferences
+- `stats.json`: posture records (kept for 30 days)
+- `streak.json`: days in a row with good posture
+- `messages.json`, `character.json`: custom messages and character
