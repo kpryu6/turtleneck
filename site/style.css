@@ -109,8 +109,7 @@ h1 {
 .mb-item.strong { font-weight: 600; }
 .mb-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
 .tray svg { width: 18px; height: 18px; display: block; }
-.tray .tray-shell { fill: var(--shell, #735238); transition: fill .4s; }
-.tray .tray-limb { fill: var(--limb, #66994d); transition: fill .4s; }
+.tray svg { fill: var(--tray); transition: fill .4s; }
 .desk { position: relative; min-height: 300px; padding: 36px 40px; }
 .window {
   width: min(520px, 78%);
@@ -139,15 +138,17 @@ h1 {
 }
 .banner.out { transform: translateX(380px); opacity: 0; }
 .banner .turtle { width: 50px; height: 55px; flex: none; }
-.banner .shell { fill: var(--shell, #735238); }
-.banner .limb { fill: var(--limb, #66994d); }
-.banner .hex { fill: none; stroke: rgba(0,0,0,.18); stroke-width: 1.2; }
+.banner .shell-top { stop-color: var(--shell-top); } .banner .shell-bottom { stop-color: var(--shell-bottom); }
+.banner .skin-top { stop-color: var(--skin-top); } .banner .skin-bottom { stop-color: var(--skin-bottom); }
+.banner .rim { fill: var(--rim); }
+.banner .hex { fill: none; stroke: var(--rim); stroke-opacity: .5; stroke-width: 9; stroke-linejoin: round; }
 .banner-text { display: flex; flex-direction: column; gap: 2px; }
 .banner-app { font-size: 11px; font-weight: 600; color: #6e6e73; }
 .banner-msg { font-size: 13.5px; font-weight: 500; line-height: 1.35; }
-[data-level="1"] { --shell: #735238; --limb: #66994d; }
-[data-level="2"] { --shell: #ff9500; --limb: #999933; }
-[data-level="3"] { --shell: #ff3b30; --limb: #b34d4d; }
+/* Same palettes as the apps (TurtleArt.swift / turtle_art.py) */
+[data-level="1"] { --shell-top: #B4FADB; --shell-bottom: #2DBE89; --skin-top: #93F1C9; --skin-bottom: #3FC995; --rim: #1FA674; --tray: #e8efec; }
+[data-level="2"] { --shell-top: #FFE3A6; --shell-bottom: #F59E0B; --skin-top: #FDD892; --skin-bottom: #E9A23B; --rim: #D97706; --tray: #F59E0B; }
+[data-level="3"] { --shell-top: #FFB8B2; --shell-bottom: #EF4444; --skin-top: #FCA8A8; --skin-bottom: #E25555; --rim: #C53030; --tray: #EF4444; }
 .banner[data-level="3"] { animation: shake .5s ease 1; }
 @keyframes shake { 0%,100% { translate: 0; } 20% { translate: -6px; } 40% { translate: 6px; } 60% { translate: -4px; } 80% { translate: 3px; } }
 

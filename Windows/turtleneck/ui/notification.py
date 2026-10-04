@@ -4,35 +4,23 @@ A frameless, always-on-top card slides in from the right edge of the screen,
 stays for a few seconds and slides back out. Unlike Windows toast notifications,
 it isn't swallowed by Focus Assist / Do Not Disturb.
 """
-import math
 import os
 from typing import Optional
 
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QVBoxLayout, QGraphicsDropShadowEffect
-from PyQt6.QtGui import QColor, QPainter, QPainterPath, QPixmap, QPolygonF
-from PyQt6.QtCore import Qt, QTimer, QPoint, QPointF, QRectF, QPropertyAnimation, QEasingCurve
+from PyQt6.QtGui import QColor, QPainter, QPainterPath, QPixmap
+from PyQt6.QtCore import Qt, QTimer, QPoint, QRectF, QPropertyAnimation, QEasingCurve
 
 from turtleneck.core.posture import TurtleLevel
 from turtleneck.core.messages import CustomCharacter
+from turtleneck.ui.turtle_art import draw_turtle
 
 CARD_W, CARD_H = 320, 110
 MARGIN = 16      # shadow room around the card
 EDGE_GAP = 16    # distance from the screen edge
 
-_SHELL = {
-    TurtleLevel.GENTLE: QColor(115, 82, 56),
-    TurtleLevel.ANNOYED: QColor(255, 149, 0),
-    TurtleLevel.ANGRY: QColor(255, 59, 48),
-}
-_LIMB = {
-    TurtleLevel.GENTLE: QColor(102, 153, 77),
-    TurtleLevel.ANNOYED: QColor(153, 153, 51),
-    TurtleLevel.ANGRY: QColor(179, 77, 77),
-}
-
-
 class TurtleIcon(QWidget):
-    """Top-down turtle, same shape as the macOS TurtleDrawing."""
+    """The app-icon turtle, colored by alert level (same drawing as the macOS app)."""
 
     def __init__(self, level: TurtleLevel):
         super().__init__()
@@ -41,35 +29,7 @@ class TurtleIcon(QWidget):
 
     def paintEvent(self, _):
         p = QPainter(self)
-        p.setRenderHint(QPainter.RenderHint.Antialiasing)
-        p.setPen(Qt.PenStyle.NoPen)
-        cx, cy = self.width() / 2, self.height() / 2
-        shell, limb = _SHELL[self.level], _LIMB[self.level]
-
-        p.setBrush(limb)
-        for dx, dy in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
-            p.drawEllipse(QPointF(cx + dx * 14, cy + dy * 14), 4.5, 4.5)
-        p.drawEllipse(QRectF(cx - 6, cy - 26, 12, 14))  # head
-        p.drawPolygon(QPolygonF([QPointF(cx - 2.5, cy + 18), QPointF(cx, cy + 25), QPointF(cx + 2.5, cy + 18)]))
-
-        p.setBrush(QColor(0, 0, 0, 180))
-        p.drawEllipse(QRectF(cx - 4, cy - 23, 3, 3))
-        p.drawEllipse(QRectF(cx + 1, cy - 23, 3, 3))
-
-        p.setBrush(shell)
-        p.drawEllipse(QPointF(cx, cy), 16, 16)
-
-        pen = p.pen()
-        line = QColor(shell)
-        line.setAlpha(102)
-        p.setPen(line)
-        pts = [QPointF(cx + 7 * math.cos(i * math.pi / 3 - math.pi / 6),
-                       cy + 7 * math.sin(i * math.pi / 3 - math.pi / 6)) for i in range(6)]
-        p.drawPolygon(QPolygonF(pts))
-        for i, pt in enumerate(pts):
-            a = i * math.pi / 3 - math.pi / 6
-            p.drawLine(pt, QPointF(cx + 15 * math.cos(a), cy + 15 * math.sin(a)))
-        p.setPen(pen)
+        draw_turtle(p, QRectF(self.rect()), self.level)
         p.end()
 
 
