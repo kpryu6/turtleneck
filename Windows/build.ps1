@@ -75,3 +75,16 @@ $zip = 'dist\TurtleNeck-Windows-x64.zip'
 Remove-Item $zip -ErrorAction SilentlyContinue
 Compress-Archive -Path 'dist\TurtleNeck' -DestinationPath $zip
 Write-Host "✅ $zip"
+
+Write-Host "Building installer..."
+# Version comes from project.yml, the single source of truth for both platforms
+$version = (Select-String -Path '..\project.yml' -Pattern '^\s*MARKETING_VERSION:\s*"([^"]+)"').Matches[0].Groups[1].Value
+$iscc = @(
+    "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
+    "$env:ProgramFiles\Inno Setup 6\ISCC.exe",
+    "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe"
+) | Where-Object { Test-Path $_ } | Select-Object -First 1
+if (-not $iscc) { $iscc = (Get-Command iscc -ErrorAction SilentlyContinue).Source }
+if (-not $iscc) { throw "Inno Setup 6 not found. Install it with: winget install JRSoftware.InnoSetup" }
+Invoke-Checked $iscc @('/Qp', "/DAppVersion=$version", 'installer.iss')
+Write-Host "Done: dist\TurtleNeck-Setup.exe (v$version)"

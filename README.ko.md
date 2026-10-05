@@ -51,13 +51,15 @@ xattr -cr /Applications/TurtleNeck.app
 
 ### Windows (베타)
 
-PowerShell을 열고 실행하세요:
+**[TurtleNeck-Setup.exe 다운로드](https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck-Setup.exe)** 후 실행하세요. 내 계정에만 설치되고(관리자 권한 불필요), **설정 → 앱**에서 삭제할 수 있어요.
+
+PowerShell로 설치하려면:
 
 ```powershell
 irm https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.ps1 | iex
 ```
 
-최신 릴리스의 `TurtleNeck.exe`를 설치해서 Python이 필요 없어요. Windows 버전에는 아직 macOS 기능이 다 들어 있지는 않아요. 되는 기능은 [Windows/README.md](Windows/README.md)를 보세요.
+아직 코드 서명이 없어서 Windows SmartScreen 경고가 뜰 수 있어요. **추가 정보 → 실행**을 누르세요. Windows 버전에는 아직 macOS 기능이 다 들어 있지는 않아요. 되는 기능은 [Windows/README.md](Windows/README.md)를 보세요.
 
 ## 동작 방식
 

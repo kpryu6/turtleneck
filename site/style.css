@@ -57,6 +57,7 @@ code { font-family: var(--mono); font-size: 0.92em; }
 .btn-ghost { color: var(--text); border-color: var(--line-2); background: rgba(255,255,255,0.02); }
 .btn-ghost:hover { border-color: rgba(255,255,255,0.32); }
 .btn-small { padding: 8px 14px; font-size: 14px; background: #fff; color: #07100d; }
+.btn-inline { padding: 10px 16px; font-size: 14px; }
 
 /* ---------- hero ---------- */
 .hero {

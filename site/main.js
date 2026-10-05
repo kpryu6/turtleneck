@@ -53,6 +53,15 @@
   if (/Windows/i.test(navigator.userAgent)) select("windows");
 })();
 
+// Windows visitors get the Windows installer as the main download
+if (/Windows/i.test(navigator.userAgent)) {
+  const setup = "https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck-Setup.exe";
+  document.querySelectorAll("[data-download]").forEach((a) => (a.href = setup));
+  document.querySelectorAll("[data-download-label]").forEach((s) => (s.textContent = "Download for Windows"));
+  document.getElementById("also-mac").hidden = true;
+  document.getElementById("also-win").hidden = false;
+}
+
 // Copy buttons
 document.querySelectorAll(".copy").forEach((btn) => {
   btn.addEventListener("click", async () => {

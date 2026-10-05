@@ -8,7 +8,9 @@ Write-Host "Installing TurtleNeck..." -ForegroundColor Green
 
 $repo = "kpryu6/turtleneck"
 $installDir = "$env:LOCALAPPDATA\TurtleNeck"
-$assetName = "TurtleNeck-Windows-x64.zip"
+$setupName = "TurtleNeck-Setup.exe"
+$zipName = "TurtleNeck-Windows-x64.zip"
+$shortcutsCreated = $false
 
 function New-Shortcut([string]$Path, [string]$Target, [string]$Arguments = "") {
     $ws = New-Object -ComObject WScript.Shell
@@ -24,15 +26,34 @@ function New-Shortcut([string]$Path, [string]$Target, [string]$Arguments = "") {
 Get-Process TurtleNeck -ErrorAction SilentlyContinue | Stop-Process -Force
 
 # 1) Prefer the prebuilt app from GitHub Releases (no Python needed)
+$setup = $null
 $asset = $null
 try {
     $release = Invoke-RestMethod "https://api.github.com/repos/$repo/releases/latest"
-    $asset = $release.assets | Where-Object { $_.name -eq $assetName } | Select-Object -First 1
+    $setup = $release.assets | Where-Object { $_.name -eq $setupName } | Select-Object -First 1
+    $asset = $release.assets | Where-Object { $_.name -eq $zipName } | Select-Object -First 1
 } catch { }
 
-if ($asset) {
+if ($setup) {
+    # Same installer as the website download: per-user, adds Start menu/desktop
+    # shortcuts and an entry in Settings > Apps for uninstalling
     Write-Host "Downloading TurtleNeck $($release.tag_name)..."
-    $zip = Join-Path $env:TEMP $assetName
+    $exe = Join-Path $env:TEMP $setupName
+    Invoke-WebRequest -Uri $setup.browser_download_url -OutFile $exe
+    $p = Start-Process -FilePath $exe -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART' -PassThru -Wait
+    Remove-Item $exe -ErrorAction SilentlyContinue
+    if ($p.ExitCode -ne 0) {
+        Write-Host "Error: the installer exited with code $($p.ExitCode)." -ForegroundColor Red
+        exit 1
+    }
+    $target = "$installDir\TurtleNeck.exe"
+    $arguments = ""
+    $shortcutsCreated = $true
+}
+elseif ($asset) {
+    # Older releases only have the zip
+    Write-Host "Downloading TurtleNeck $($release.tag_name)..."
+    $zip = Join-Path $env:TEMP $zipName
     Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $zip
     if (Test-Path $installDir) { Remove-Item -Recurse -Force $installDir }
     Expand-Archive -Path $zip -DestinationPath $env:LOCALAPPDATA -Force  # zip contains a TurtleNeck\ folder
@@ -97,9 +118,11 @@ else {
     $arguments = "`"$installDir\main.py`""
 }
 
-# Desktop + Start menu shortcuts
-New-Shortcut "$([Environment]::GetFolderPath('Desktop'))\TurtleNeck.lnk" $target $arguments
-New-Shortcut "$([Environment]::GetFolderPath('Programs'))\TurtleNeck.lnk" $target $arguments
+# Desktop + Start menu shortcuts (the installer makes its own)
+if (-not $shortcutsCreated) {
+    New-Shortcut "$([Environment]::GetFolderPath('Desktop'))\TurtleNeck.lnk" $target $arguments
+    New-Shortcut "$([Environment]::GetFolderPath('Programs'))\TurtleNeck.lnk" $target $arguments
+}
 
 Write-Host ""
 Write-Host "TurtleNeck installed!" -ForegroundColor Green
