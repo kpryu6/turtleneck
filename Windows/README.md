@@ -4,16 +4,18 @@ The Windows version of TurtleNeck, built with Python, MediaPipe and PyQt6.
 
 ## Install
 
-Open PowerShell and run:
+**[Download TurtleNeck-Setup.exe](https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck-Setup.exe)** and run it: Next → Install → Finish. It installs for your user only (no admin rights needed) into `%LOCALAPPDATA%\TurtleNeck`, adds Start menu and desktop shortcuts, and can be uninstalled from **Settings → Apps**.
+
+Or open PowerShell and run:
 
 ```powershell
 irm https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.ps1 | iex
 ```
 
-- If the latest [Release](https://github.com/kpryu6/turtleneck/releases) has a Windows build, the installer downloads `TurtleNeck.exe`. You don't need Python.
+- If the latest [Release](https://github.com/kpryu6/turtleneck/releases) has a Windows build, the script downloads and silently runs the same `TurtleNeck-Setup.exe`. You don't need Python.
 - If it doesn't, the installer sets up TurtleNeck from source. That needs **Python 3.10–3.12**, because mediapipe doesn't support newer versions yet. Get it from [python.org](https://www.python.org/downloads/).
 
-The installer adds TurtleNeck to `%LOCALAPPDATA%\TurtleNeck` and creates Desktop and Start menu shortcuts. TurtleNeck runs in the **system tray**; look for the turtle under **^** next to the clock.
+Both ways install to the same place, so they never leave two copies. TurtleNeck runs in the **system tray**; look for the turtle under **^** next to the clock.
 
 > Windows SmartScreen may warn about the app because it isn't code-signed yet. Click **More info → Run anyway**.
 
@@ -66,7 +68,7 @@ On Windows with Python 3.10–3.12:
 .\Windows\build.ps1
 ```
 
-This builds `Windows\dist\TurtleNeck-Windows-x64.zip` with PyInstaller and runs a self-test (`TurtleNeck.exe --self-test`). It checks that the bundled MediaPipe models load and the UI starts, so a broken build fails before it ships.
+It needs [Inno Setup 6](https://jrsoftware.org/isdl.php) (`winget install JRSoftware.InnoSetup`). This builds `Windows\dist\TurtleNeck-Setup.exe` (from `installer.iss`) and `TurtleNeck-Windows-x64.zip` with PyInstaller, and runs a self-test (`TurtleNeck.exe --self-test`). It checks that the bundled MediaPipe models load and the UI starts, so a broken build fails before it ships.
 
 GitHub Actions ([`.github/workflows/windows.yml`](../.github/workflows/windows.yml)) runs the same build on every pull request that touches `Windows/`. When a `v*` tag is pushed, it attaches the zip to that GitHub Release.
 

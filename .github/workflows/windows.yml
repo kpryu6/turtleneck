@@ -33,20 +33,62 @@ jobs:
           python -m pip install -q -r requirements.txt
           python -m unittest discover -s tests -t . -v
 
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe")) {
+            choco install innosetup -y --no-progress
+          }
+
       - name: Build and smoke test
         shell: pwsh
         run: ./Windows/build.ps1
 
+      # What a user gets from TurtleNeck-Setup.exe: install, run, uninstall cleanly
+      - name: Installer test (silent install, self-test, uninstall)
+        shell: pwsh
+        run: |
+          $dir = "$env:LOCALAPPDATA\TurtleNeck"
+          $startMenu = Join-Path ([Environment]::GetFolderPath('Programs')) 'TurtleNeck.lnk'
+          $p = Start-Process 'Windows\dist\TurtleNeck-Setup.exe' -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART' -PassThru -Wait
+          if ($p.ExitCode -ne 0) { throw "Setup exited with $($p.ExitCode)" }
+          foreach ($f in "$dir\TurtleNeck.exe", "$dir\unins000.exe", $startMenu) {
+            if (-not (Test-Path $f)) { throw "Missing after install: $f" }
+          }
+          $entry = Get-ChildItem HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall |
+            ForEach-Object { Get-ItemProperty $_.PSPath } | Where-Object DisplayName -eq 'TurtleNeck'
+          if (-not $entry) { throw "Not listed in Settings > Apps" }
+          "Installed TurtleNeck $($entry.DisplayVersion) to $dir"
+
+          $env:QT_QPA_PLATFORM = 'offscreen'
+          $log = "$env:RUNNER_TEMP\installed-self-test.log"
+          $t = Start-Process "$dir\TurtleNeck.exe" -ArgumentList '--self-test', "`"$log`"" -PassThru
+          if (-not $t.WaitForExit(120000)) { $t | Stop-Process -Force; throw "Installed app self-test timed out" }
+          Get-Content $log
+          if ($t.ExitCode -ne 0) { throw "Installed app self-test failed" }
+
+          # The uninstaller relaunches itself from %TEMP%, so wait for the files to go
+          Start-Process "$dir\unins000.exe" -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART' -Wait
+          $deadline = (Get-Date).AddSeconds(60)
+          while ((Test-Path "$dir\TurtleNeck.exe") -and (Get-Date) -lt $deadline) { Start-Sleep -Seconds 2 }
+          if (Test-Path "$dir\TurtleNeck.exe") { throw "Uninstall left TurtleNeck.exe behind" }
+          if (Test-Path $startMenu) { throw "Uninstall left the Start menu shortcut behind" }
+          "Uninstalled cleanly"
+
       - uses: actions/upload-artifact@v4
         with:
           name: TurtleNeck-Windows-x64
-          path: Windows/dist/TurtleNeck-Windows-x64.zip
+          path: |
+            Windows/dist/TurtleNeck-Setup.exe
+            Windows/dist/TurtleNeck-Windows-x64.zip
 
-      # Verify with: gh attestation verify TurtleNeck-Windows-x64.zip --repo kpryu6/turtleneck
+      # Verify with: gh attestation verify TurtleNeck-Setup.exe --repo kpryu6/turtleneck
       - uses: actions/attest-build-provenance@v2
         if: startsWith(github.ref, 'refs/tags/v')
         with:
-          subject-path: Windows/dist/TurtleNeck-Windows-x64.zip
+          subject-path: |
+            Windows/dist/TurtleNeck-Setup.exe
+            Windows/dist/TurtleNeck-Windows-x64.zip
 
       - name: Attach to release
         if: startsWith(github.ref, 'refs/tags/v')
@@ -61,4 +103,4 @@ jobs:
             gh release create $env:TAG --title "TurtleNeck $env:TAG" --generate-notes
           }
           $global:LASTEXITCODE = 0
-          gh release upload $env:TAG Windows/dist/TurtleNeck-Windows-x64.zip --clobber
+          gh release upload $env:TAG Windows/dist/TurtleNeck-Setup.exe Windows/dist/TurtleNeck-Windows-x64.zip --clobber

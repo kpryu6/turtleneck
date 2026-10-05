@@ -51,13 +51,15 @@ xattr -cr /Applications/TurtleNeck.app
 
 ### Windows (beta)
 
-Open PowerShell and run:
+**[Download TurtleNeck-Setup.exe](https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck-Setup.exe)** and run it. It installs for your user only (no admin rights needed), and you can uninstall it from **Settings → Apps**.
+
+Or in PowerShell:
 
 ```powershell
 irm https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.ps1 | iex
 ```
 
-It installs `TurtleNeck.exe` from the latest release, so you don't need Python. The Windows version doesn't have every macOS feature yet; see [Windows/README.md](Windows/README.md) for what works.
+Windows SmartScreen may warn because the app isn't code-signed yet: choose **More info → Run anyway**. The Windows version doesn't have every macOS feature yet; see [Windows/README.md](Windows/README.md) for what works.
 
 ## How it works
 
