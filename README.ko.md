@@ -14,7 +14,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-blue?logo=kofi)](https://ko-fi.com/kpryu)
 
-**[웹사이트](https://kpryu6.github.io/turtleneck/)** · [English](README.md) · **한국어**
+**[웹사이트](https://kpryu6.github.io/turtleneck/ko/)** · [English](README.md) · **한국어**
 
 <img src="docs/images/alerts.png" width="500" alt="갈색 거북이에서 빨간 거북이로 점점 화가 나는 TurtleNeck 알림">
 

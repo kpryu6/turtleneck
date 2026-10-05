@@ -65,6 +65,13 @@ cd /tmp/tap && git commit -am "Update TurtleNeck to 1.2.0" && git push
     rm /tmp/tapkey /tmp/tapkey.pub
     ```
 
+## 웹사이트
+
+`site/`가 GitHub Pages로 배포돼요(`main`에 머지되면 `pages.yml`이 자동 배포).
+
+- `site/index.html`: 영어, `site/ko/index.html`: 한국어. 구조가 같으니 **둘 다 같이** 고쳐요.
+- 다운로드 링크는 항상 최신 릴리스를 가리켜요: `releases/latest/download/TurtleNeck.dmg`, `TurtleNeck-Setup.exe`
+
 ## 로컬에서 직접 빌드할 때
 
 ```bash

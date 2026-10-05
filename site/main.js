@@ -53,29 +53,77 @@
   if (/Windows/i.test(navigator.userAgent)) select("windows");
 })();
 
-// Windows visitors get the Windows installer as the main download
-if (/Windows/i.test(navigator.userAgent)) {
-  const setup = "https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck-Setup.exe";
-  document.querySelectorAll("[data-download]").forEach((a) => (a.href = setup));
-  document.querySelectorAll("[data-download-label]").forEach((s) => (s.textContent = "Download for Windows"));
-  document.getElementById("also-mac").hidden = true;
-  document.getElementById("also-win").hidden = false;
-}
+// Download menus: macOS / Windows, with the visitor's platform first
+(function () {
+  const ua = navigator.userAgent;
+  const mobile = /iPhone|iPad|Android/i.test(ua);
+  const os = mobile ? null : /Windows/i.test(ua) ? "windows" : /Macintosh|Mac OS X/i.test(ua) ? "mac" : null;
+  const menus = [...document.querySelectorAll("[data-dl]")];
+
+  function close(dl, focusToggle) {
+    const btn = dl.querySelector(".dl-toggle");
+    btn.setAttribute("aria-expanded", "false");
+    dl.querySelector(".dl-menu").hidden = true;
+    if (focusToggle) btn.focus();
+  }
+
+  menus.forEach((dl) => {
+    const btn = dl.querySelector(".dl-toggle");
+    const menu = dl.querySelector(".dl-menu");
+    const items = () => [...menu.querySelectorAll(".dl-item")];
+
+    if (os) {
+      const mine = menu.querySelector(`[data-os="${os}"]`);
+      mine.querySelector(".dl-badge").hidden = false;
+      menu.prepend(mine);
+    }
+
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = btn.getAttribute("aria-expanded") === "true";
+      menus.forEach((m) => close(m));
+      if (!open) {
+        btn.setAttribute("aria-expanded", "true");
+        menu.hidden = false;
+        if (e.detail === 0) items()[0].focus(); // opened with the keyboard
+      }
+    });
+    menu.addEventListener("keydown", (e) => {
+      const list = items();
+      const i = list.indexOf(document.activeElement);
+      if (e.key === "ArrowDown") { e.preventDefault(); list[(i + 1) % list.length].focus(); }
+      if (e.key === "ArrowUp") { e.preventDefault(); list[(i - 1 + list.length) % list.length].focus(); }
+      if (e.key === "Escape") close(dl, true);
+    });
+    menu.addEventListener("click", () => close(dl));
+  });
+
+  document.addEventListener("click", (e) => {
+    menus.forEach((dl) => { if (!dl.contains(e.target)) close(dl); });
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") menus.forEach((dl) => close(dl));
+  });
+})();
 
 // Copy buttons
+const KO = document.documentElement.lang.startsWith("ko");
+const T = KO
+  ? { copy: "복사", copied: "복사됨", manual: "⌘C로 복사" }
+  : { copy: "Copy", copied: "Copied", manual: "Press ⌘C" };
 document.querySelectorAll(".copy").forEach((btn) => {
   btn.addEventListener("click", async () => {
     const text = btn.previousElementSibling.textContent;
     try {
       await navigator.clipboard.writeText(text);
-      btn.textContent = "Copied";
+      btn.textContent = T.copied;
     } catch {
-      btn.textContent = "Press ⌘C";
+      btn.textContent = T.manual;
       const range = document.createRange();
       range.selectNodeContents(btn.previousElementSibling);
       const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
     }
-    setTimeout(() => (btn.textContent = "Copy"), 1600);
+    setTimeout(() => (btn.textContent = T.copy), 1600);
   });
 });
 

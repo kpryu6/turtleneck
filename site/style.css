@@ -59,6 +59,37 @@ code { font-family: var(--mono); font-size: 0.92em; }
 .btn-small { padding: 8px 14px; font-size: 14px; background: #fff; color: #07100d; }
 .btn-inline { padding: 10px 16px; font-size: 14px; }
 
+/* ---------- download menu ---------- */
+.dl { position: relative; display: inline-block; }
+button.btn { cursor: pointer; font-family: inherit; }
+.dl-toggle .chev { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s; margin-left: -2px; }
+.dl-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.dl-menu {
+  position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  z-index: 20; min-width: 360px; padding: 6px;
+  border: 1px solid var(--line-2); border-radius: 14px;
+  background: rgba(14, 24, 20, 0.97); backdrop-filter: blur(16px);
+  box-shadow: 0 24px 60px -12px rgba(0,0,0,.7);
+  text-align: left;
+}
+.dl-right .dl-menu { left: auto; right: 0; transform: none; }
+.dl-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 12px; border-radius: 10px; color: var(--text);
+}
+.dl-item:hover, .dl-item:focus-visible { background: rgba(255,255,255,0.07); text-decoration: none; outline: none; }
+.dl-item .os { width: 22px; height: 22px; flex: none; color: #dfe9e4; }
+.dl-text { display: flex; flex-direction: column; line-height: 1.3; }
+.dl-text b { font-weight: 600; font-size: 14.5px; }
+.dl-text small { color: var(--muted); font-size: 12.5px; }
+.dl-badge {
+  margin-left: auto; padding: 2px 8px; border-radius: 999px;
+  background: rgba(95,227,173,.14); color: var(--mint);
+  font-style: normal; font-size: 11.5px; font-weight: 600; white-space: nowrap;
+}
+.lang { color: var(--muted); font-size: 14px; }
+.lang:hover { color: var(--text); text-decoration: none; }
+
 /* ---------- hero ---------- */
 .hero {
   position: relative;
@@ -224,6 +255,11 @@ h1 {
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
   .nav-links { display: none; }
+  .nav { gap: 12px; }
+  .nav-actions { gap: 12px; }
+  .gh-link { display: none; }
+  .dl-menu { min-width: 0; width: min(340px, calc(100vw - 32px)); }
+  .cta .dl-menu { left: 0; transform: none; }
   .steps, .grid { grid-template-columns: 1fr; }
   .trust { grid-template-columns: 1fr; padding: 28px; }
   .trust img { display: none; }
@@ -240,3 +276,10 @@ h1 {
   .banner, .btn { transition: none; }
   .banner[data-level="3"] { animation: none; }
 }
+
+/* ---------- Korean ---------- */
+html[lang="ko"] body {
+  font-family: Inter, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  word-break: keep-all;
+}
+html[lang="ko"] h1 { letter-spacing: -0.03em; line-height: 1.12; }
