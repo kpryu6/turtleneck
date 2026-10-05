@@ -10,7 +10,19 @@ function Invoke-Checked {
 }
 
 Write-Host "📦 Installing build dependencies..."
-Invoke-Checked python @('-m', 'pip', 'install', '-q', '-r', 'requirements.txt', 'pyinstaller==6.11.1', 'pillow')
+Invoke-Checked python @('-m', 'pip', 'install', '-q', '-r', 'requirements.txt', 'pillow', 'wheel')
+
+# PyInstaller's prebuilt bootloader (the small launcher inside every PyInstaller .exe) is
+# shared with a lot of malware, so antivirus engines often flag unsigned apps that use it
+# (Windows Defender blocked TurtleNeck.exe with "CreateProcess failed; code 225").
+# Compiling the bootloader ourselves gives the .exe its own launcher. Needs MSVC.
+Write-Host "🔧 Building PyInstaller with a locally compiled bootloader..."
+$env:PYINSTALLER_COMPILE_BOOTLOADER = '1'
+Invoke-Checked python @('-m', 'pip', 'install', '-q', '--force-reinstall', '--no-cache-dir',
+    '--no-binary', 'pyinstaller', 'pyinstaller==6.11.1')
+Remove-Item Env:\PYINSTALLER_COMPILE_BOOTLOADER
+$runw = python -c "import os, PyInstaller; print(os.path.join(os.path.dirname(PyInstaller.__file__), 'bootloader', 'Windows-64bit-intel', 'runw.exe'))"
+Write-Host "   bootloader: $runw ($((Get-Item $runw).LastWriteTime), sha256 $((Get-FileHash $runw).Hash.Substring(0, 16))...)"
 
 Write-Host "🎨 Generating icon..."
 New-Item -ItemType Directory -Force build | Out-Null
@@ -20,12 +32,40 @@ Image.open('../TurtleNeck/Resources/Assets.xcassets/AppIcon.appiconset/icon_256.
     'build/turtleneck.ico', sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
 "@)
 
-Write-Host "🔨 Building TurtleNeck.exe..."
-# Absolute path: PyInstaller resolves relative --icon paths against --specpath
+# Version comes from project.yml, the single source of truth for both platforms
+$version = (Select-String -Path '..\project.yml' -Pattern '^\s*MARKETING_VERSION:\s*"([^"]+)"').Matches[0].Groups[1].Value
+$v = ($version.Split('.') + @('0', '0', '0'))[0..3] -join ', '
+
+# Windows version resource: company, product and description show up in the file's
+# Properties and help antivirus heuristics (an .exe with no metadata looks suspicious)
+@"
+VSVersionInfo(
+  ffi=FixedFileInfo(filevers=($v), prodvers=($v), mask=0x3f, flags=0x0, OS=0x40004,
+                    fileType=0x1, subtype=0x0, date=(0, 0)),
+  kids=[
+    StringFileInfo([StringTable('040904B0', [
+      StringStruct('CompanyName', 'kpryu6'),
+      StringStruct('FileDescription', 'TurtleNeck - posture reminder'),
+      StringStruct('FileVersion', '$version'),
+      StringStruct('InternalName', 'TurtleNeck'),
+      StringStruct('LegalCopyright', 'Copyright (c) kpryu6. MIT License.'),
+      StringStruct('OriginalFilename', 'TurtleNeck.exe'),
+      StringStruct('ProductName', 'TurtleNeck'),
+      StringStruct('ProductVersion', '$version')])]),
+    VarFileInfo([VarStruct('Translation', [1033, 1200])])
+  ]
+)
+"@ | Set-Content -Encoding ascii 'build\version_info.txt'
+
+Write-Host "🔨 Building TurtleNeck.exe v$version..."
+# Absolute paths: PyInstaller resolves relative paths against --specpath
 $icon = (Resolve-Path 'build\turtleneck.ico').Path
+$versionFile = (Resolve-Path 'build\version_info.txt').Path
 Invoke-Checked python @('-m', 'PyInstaller', '--noconfirm', '--clean', '--windowed',
     '--name', 'TurtleNeck',
     '--icon', $icon,
+    '--version-file', $versionFile,
+    '--noupx',
     # MediaPipe loads its .tflite / .binarypb model files at runtime
     '--collect-data', 'mediapipe',
     '--add-data', "$(Resolve-Path 'turtleneck\resources\icon.png');turtleneck\resources",
@@ -77,8 +117,6 @@ Compress-Archive -Path 'dist\TurtleNeck' -DestinationPath $zip
 Write-Host "✅ $zip"
 
 Write-Host "Building installer..."
-# Version comes from project.yml, the single source of truth for both platforms
-$version = (Select-String -Path '..\project.yml' -Pattern '^\s*MARKETING_VERSION:\s*"([^"]+)"').Matches[0].Groups[1].Value
 $iscc = @(
     "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
     "$env:ProgramFiles\Inno Setup 6\ISCC.exe",
