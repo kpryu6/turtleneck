@@ -1,60 +1,61 @@
 <!doctype html>
-<!-- Korean version: ko/index.html has the same structure. Update both together. -->
-<html lang="en">
+<!-- 영어 버전(../index.html)과 구조가 같아요. 수정할 땐 둘 다 같이 고쳐주세요. -->
+<html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TurtleNeck: a sassy turtle that fixes your posture</title>
-  <meta name="description" content="TurtleNeck watches your posture through your webcam and sends a sassy turtle when you slouch. Free, open source, 100% on-device. For macOS and Windows.">
-  <meta property="og:title" content="TurtleNeck: a sassy turtle that fixes your posture">
-  <meta property="og:description" content="Slouch, and the turtle shows up. Keep slouching, and it gets angry. Free, open source, 100% on-device.">
+  <title>TurtleNeck: 거북목을 고쳐주는 잔소리꾼 거북이</title>
+  <meta name="description" content="TurtleNeck은 웹캠으로 자세를 살피다가 구부정해지면 잔소리꾼 거북이를 보내요. 무료 오픈소스, 모든 처리는 내 컴퓨터 안에서. macOS와 Windows 지원.">
+  <meta property="og:title" content="TurtleNeck: 거북목을 고쳐주는 잔소리꾼 거북이">
+  <meta property="og:description" content="구부정하면 거북이가 나타나고, 계속 구부정하면 화를 내요. 무료 오픈소스, 모든 처리는 내 기기에서.">
   <meta property="og:image" content="https://kpryu6.github.io/turtleneck/assets/og.png">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#07100D">
-  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
-  <link rel="icon" type="image/png" href="assets/favicon-64.png">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="icon" type="image/png" href="../assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="alternate" hreflang="en" href="https://kpryu6.github.io/turtleneck/">
   <link rel="alternate" hreflang="ko" href="https://kpryu6.github.io/turtleneck/ko/">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
   <header class="nav">
-    <a class="brand" href="#top" aria-label="TurtleNeck home">
-      <img src="assets/icon.svg" alt="" width="28" height="28">
+    <a class="brand" href="#top" aria-label="TurtleNeck 홈">
+      <img src="../assets/icon.svg" alt="" width="28" height="28">
       <span>TurtleNeck</span>
     </a>
-    <nav class="nav-links" aria-label="Sections">
-      <a href="#features">Features</a>
-      <a href="#install">Install</a>
-      <a href="#privacy">Privacy</a>
+    <nav class="nav-links" aria-label="섹션">
+      <a href="#features">기능</a>
+      <a href="#install">설치</a>
+      <a href="#privacy">개인정보</a>
     </nav>
     <div class="nav-actions">
-      <a class="lang" href="ko/" hreflang="ko" lang="ko">한국어</a>
-      <a class="gh-link" href="https://github.com/kpryu6/turtleneck" aria-label="TurtleNeck on GitHub">
+      <a class="lang" href="../" hreflang="en" lang="en">English</a>
+      <a class="gh-link" href="https://github.com/kpryu6/turtleneck" aria-label="GitHub의 TurtleNeck">
         <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         <span id="stars" class="stars" hidden></span>
       </a>
       <div class="dl dl-right" data-dl>
         <button type="button" class="btn btn-small dl-toggle" aria-haspopup="menu" aria-expanded="false" aria-controls="dl-menu-nav">
           <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
-          <span>Download</span>
+          <span>다운로드</span>
           <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="dl-menu" id="dl-menu-nav" role="menu" hidden>
           <a class="dl-item" role="menuitem" data-os="mac" href="https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck.dmg">
             <svg class="os" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.7c0-2.5 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.3 0 1.7-.8 3.3-.8 1.5 0 1.9.8 3.3.8 1.4 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.6-1-2.6-4.2zM14 5.2c.7-.8 1.1-2 1-3.2-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3.1 1.1.1 2.2-.6 2.9-1.4z"/></svg>
-            <span class="dl-text"><b>macOS</b><small>macOS 13+ · Apple Silicon &amp; Intel · .dmg</small></span>
-            <em class="dl-badge" hidden>This device</em>
+            <span class="dl-text"><b>macOS</b><small>macOS 13+ · Apple Silicon 및 Intel · .dmg</small></span>
+            <em class="dl-badge" hidden>이 기기</em>
           </a>
           <a class="dl-item" role="menuitem" data-os="windows" href="https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck-Setup.exe">
             <svg class="os" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.1l7.4-1v7.2H3V5.1zm0 13.8l7.4 1v-7.1H3v6.1zm8.2 1.1L21 21.4v-8.6h-9.8V20zm0-15.9v7.3H21V2.6l-9.8 1.5z"/></svg>
-            <span class="dl-text"><b>Windows</b><small>Windows 10/11 · 64-bit · .exe installer</small></span>
-            <em class="dl-badge" hidden>This device</em>
+            <span class="dl-text"><b>Windows</b><small>Windows 10/11 · 64비트 · .exe 설치 프로그램</small></span>
+            <em class="dl-badge" hidden>이 기기</em>
           </a>
         </div>
       </div>
@@ -63,47 +64,47 @@
 
   <main id="top">
     <section class="hero">
-      <p class="eyebrow"><span class="dot"></span>Free &amp; open source · 100% on-device</p>
-      <h1>Sit up straight.<br>The turtle is watching.</h1>
-      <p class="lede">TurtleNeck notices when you slouch toward your screen and sends a sassy turtle to fix it. The longer you slouch, the angrier it gets.</p>
+      <p class="eyebrow"><span class="dot"></span>무료 오픈소스 · 모든 처리는 내 기기에서</p>
+      <h1>바르게 앉으세요.<br>거북이가 지켜보고 있어요.</h1>
+      <p class="lede">TurtleNeck은 화면 쪽으로 구부정해지는 순간을 알아채고 잔소리꾼 거북이를 보내요. 오래 구부정할수록 거북이는 점점 화를 내요.</p>
       <div class="cta">
         <div class="dl" data-dl>
         <button type="button" class="btn btn-primary dl-toggle" aria-haspopup="menu" aria-expanded="false" aria-controls="dl-menu-hero">
           <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
-          <span>Download</span>
+          <span>다운로드</span>
           <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="dl-menu" id="dl-menu-hero" role="menu" hidden>
           <a class="dl-item" role="menuitem" data-os="mac" href="https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck.dmg">
             <svg class="os" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.7c0-2.5 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.3 0 1.7-.8 3.3-.8 1.5 0 1.9.8 3.3.8 1.4 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.6-1-2.6-4.2zM14 5.2c.7-.8 1.1-2 1-3.2-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3.1 1.1.1 2.2-.6 2.9-1.4z"/></svg>
-            <span class="dl-text"><b>macOS</b><small>macOS 13+ · Apple Silicon &amp; Intel · .dmg</small></span>
-            <em class="dl-badge" hidden>This device</em>
+            <span class="dl-text"><b>macOS</b><small>macOS 13+ · Apple Silicon 및 Intel · .dmg</small></span>
+            <em class="dl-badge" hidden>이 기기</em>
           </a>
           <a class="dl-item" role="menuitem" data-os="windows" href="https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck-Setup.exe">
             <svg class="os" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.1l7.4-1v7.2H3V5.1zm0 13.8l7.4 1v-7.1H3v6.1zm8.2 1.1L21 21.4v-8.6h-9.8V20zm0-15.9v7.3H21V2.6l-9.8 1.5z"/></svg>
-            <span class="dl-text"><b>Windows</b><small>Windows 10/11 · 64-bit · .exe installer</small></span>
-            <em class="dl-badge" hidden>This device</em>
+            <span class="dl-text"><b>Windows</b><small>Windows 10/11 · 64비트 · .exe 설치 프로그램</small></span>
+            <em class="dl-badge" hidden>이 기기</em>
           </a>
         </div>
       </div>
         <a class="btn btn-ghost" href="https://github.com/kpryu6/turtleneck">
           <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          View on GitHub
+          GitHub에서 보기
         </a>
       </div>
-      <p class="also">macOS 13+ · Windows 10/11 · Free, no account needed</p>
+      <p class="also">macOS 13+ · Windows 10/11 · 무료, 계정 필요 없음</p>
 
       <!-- Demo: the alert escalates on a loop -->
-      <div class="demo" aria-label="Animated preview of TurtleNeck alerts" role="img">
+      <div class="demo" aria-label="TurtleNeck 알림 미리보기 애니메이션" role="img">
         <div class="screen">
           <div class="menubar">
             <span class="apple"></span>
-            <span class="mb-item strong">Code</span><span class="mb-item">File</span><span class="mb-item">Edit</span><span class="mb-item">View</span>
+            <span class="mb-item strong">Code</span><span class="mb-item">파일</span><span class="mb-item">편집</span><span class="mb-item">보기</span>
             <span class="mb-right">
-              <span class="tray" id="tray" title="Posture">
+              <span class="tray" id="tray" title="자세">
                 <svg viewBox="240 210 540 530" aria-hidden="true"><mask id="tray-cut"><rect x="200" y="200" width="620" height="560" fill="#fff"/><circle cx="716" cy="290" r="22" fill="#000"/><path d="M296 604H636" stroke="#000" stroke-width="18"/></mask><g mask="url(#tray-cut)"><rect x="356" y="606" width="80" height="122" rx="40"/><rect x="572" y="606" width="80" height="122" rx="40"/><path d="M300 606Q262 622 248 660Q292 658 320 636Z"/><rect x="646" y="320" width="72" height="300" rx="36"/><circle cx="682" cy="306" r="86"/><path d="M284 636C284 470 380 392 500 392C620 392 716 470 716 636Z"/><rect x="270" y="612" width="460" height="48" rx="24"/></g></svg>
               </span>
-              <span class="mb-item">Tue 9:41</span>
+              <span class="mb-item">(화) 오전 9:41</span>
             </span>
           </div>
           <div class="desk">
@@ -139,78 +140,78 @@
           </div>
         </div>
         <ol class="levels" aria-hidden="true">
-          <li data-level="1"><b>🐢 Gentle</b><span>0–20s</span></li>
-          <li data-level="2"><b>🐢💢 Annoyed</b><span>20–60s</span></li>
-          <li data-level="3"><b>🐢🔥 Angry</b><span>60s+</span></li>
+          <li data-level="1"><b>🐢 부드럽게</b><span>0–20초</span></li>
+          <li data-level="2"><b>🐢💢 짜증</b><span>20–60초</span></li>
+          <li data-level="3"><b>🐢🔥 분노</b><span>60초+</span></li>
         </ol>
       </div>
     </section>
 
     <section class="section" id="how">
-      <h2>How it works</h2>
+      <h2>이렇게 동작해요</h2>
       <div class="steps">
-        <div class="step"><span class="num">1</span><h3>Calibrate</h3><p>Sit up straight for five seconds. That's your baseline.</p></div>
-        <div class="step"><span class="num">2</span><h3>Work normally</h3><p>Once a second, TurtleNeck checks where your face sits in the webcam frame. Nothing leaves your computer.</p></div>
-        <div class="step"><span class="num">3</span><h3>Get roasted</h3><p>Drop your head or creep toward the screen for 5+ seconds and the turtle slides in.</p></div>
+        <div class="step"><span class="num">1</span><h3>기준 자세 저장</h3><p>바르게 앉아 5초만 기다리면, 그게 기준 자세예요.</p></div>
+        <div class="step"><span class="num">2</span><h3>평소처럼 일하기</h3><p>1초에 한 번 웹캠 화면 속 얼굴 위치를 확인해요. 아무것도 컴퓨터 밖으로 나가지 않아요.</p></div>
+        <div class="step"><span class="num">3</span><h3>잔소리 듣기</h3><p>고개를 숙이거나 화면 쪽으로 다가간 채 5초가 지나면 거북이가 미끄러져 들어와요.</p></div>
       </div>
     </section>
 
     <section class="section" id="features">
-      <h2>Everything a posture nag needs</h2>
+      <h2>자세 잔소리꾼에게 필요한 모든 것</h2>
       <div class="grid">
-        <article class="card"><div class="ico">🔥</div><h3>Escalating sass</h3><p>Gentle at first, then annoyed, then furious. Write your own lines, or swap the turtle for a cat, owl, or your own photo.</p></article>
-        <article class="card"><div class="ico">🔒</div><h3>Private by design</h3><p>Face detection runs on your machine. No video is recorded, stored or uploaded. No accounts, no analytics.</p></article>
-        <article class="card"><div class="ico">📊</div><h3>Stats &amp; streaks</h3><p>Daily score, a GitHub-style year calendar, and streaks that don't break just because you took the weekend off.</p></article>
-        <article class="card"><div class="ico">☕</div><h3>Break reminder</h3><p>A Pomodoro-style timer that tells you to stand up and stretch, and remembers your settings.</p></article>
-        <article class="card"><div class="ico">🎯</div><h3>Stays out of the way</h3><p>Work-hours schedule, pause per app, sensitivity and cooldown controls. One click in the menu bar to pause.</p></article>
-        <article class="card"><div class="ico">🪶</div><h3>Light on battery</h3><p>Analyzes one frame per second. Lives quietly in your menu bar or system tray.</p></article>
+        <article class="card"><div class="ico">🔥</div><h3>점점 세지는 잔소리</h3><p>처음엔 부드럽게, 그다음엔 짜증, 결국엔 분노. 잔소리 문구를 한국어로 직접 쓰거나, 거북이를 고양이·부엉이·내 사진으로 바꿀 수 있어요.</p></article>
+        <article class="card"><div class="ico">🔒</div><h3>처음부터 개인정보 보호</h3><p>얼굴 인식은 내 컴퓨터에서만 돌아가요. 영상은 녹화·저장·업로드하지 않고, 계정도 분석 도구도 없어요.</p></article>
+        <article class="card"><div class="ico">📊</div><h3>통계와 연속 기록</h3><p>일별 점수, GitHub 잔디 같은 연간 캘린더, 그리고 주말에 쉬어도 끊기지 않는 연속 기록.</p></article>
+        <article class="card"><div class="ico">☕</div><h3>휴식 알림</h3><p>일어나서 스트레칭하라고 알려주는 뽀모도로 타이머. 설정도 기억해요.</p></article>
+        <article class="card"><div class="ico">🎯</div><h3>방해하지 않아요</h3><p>근무 시간 스케줄, 앱별 일시정지, 민감도와 쿨다운 설정. 메뉴 막대에서 클릭 한 번이면 일시정지돼요.</p></article>
+        <article class="card"><div class="ico">🪶</div><h3>배터리 걱정 없이</h3><p>1초에 한 프레임만 분석해요. 메뉴 막대나 시스템 트레이에 조용히 있어요.</p></article>
       </div>
     </section>
 
     <section class="section" id="install">
-      <h2>Install in one line</h2>
-      <p class="sub">Or just <a href="https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck.dmg">download the DMG</a>. Run the same command again to update.</p>
-      <div class="tabs" role="tablist" aria-label="Platform">
+      <h2>한 줄로 설치하기</h2>
+      <p class="sub">아니면 그냥 <a href="https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck.dmg">DMG를 다운로드</a>하세요. 같은 명령을 다시 실행하면 업데이트돼요.</p>
+      <div class="tabs" role="tablist" aria-label="플랫폼">
         <button role="tab" aria-selected="true" aria-controls="tab-mac" id="t-mac" data-tab="mac">macOS</button>
         <button role="tab" aria-selected="false" aria-controls="tab-brew" id="t-brew" data-tab="brew">Homebrew</button>
         <button role="tab" aria-selected="false" aria-controls="tab-windows" id="t-windows" data-tab="windows">Windows</button>
       </div>
       <div class="panel" role="tabpanel" id="tab-mac" aria-labelledby="t-mac">
-        <p>In Terminal:</p>
-        <div class="cmd"><code>curl -fsSL https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.sh | bash</code><button class="copy" aria-label="Copy command">Copy</button></div>
+        <p>터미널에서:</p>
+        <div class="cmd"><code>curl -fsSL https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.sh | bash</code><button class="copy" aria-label="명령 복사">복사</button></div>
       </div>
       <div class="panel" role="tabpanel" id="tab-brew" aria-labelledby="t-brew" hidden>
-        <p>With Homebrew:</p>
-        <div class="cmd"><code>brew tap kpryu6/turtleneck &amp;&amp; brew trust kpryu6/turtleneck &amp;&amp; brew install --cask turtleneck</code><button class="copy" aria-label="Copy command">Copy</button></div>
+        <p>Homebrew로:</p>
+        <div class="cmd"><code>brew tap kpryu6/turtleneck &amp;&amp; brew trust kpryu6/turtleneck &amp;&amp; brew install --cask turtleneck</code><button class="copy" aria-label="명령 복사">복사</button></div>
       </div>
       <div class="panel" role="tabpanel" id="tab-windows" aria-labelledby="t-windows" hidden>
         <p><a class="btn btn-primary btn-inline" href="https://github.com/kpryu6/turtleneck/releases/latest/download/TurtleNeck-Setup.exe">
           <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
-          Download TurtleNeck-Setup.exe</a></p>
-        <p>Or in PowerShell:</p>
-        <div class="cmd"><code>irm https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.ps1 | iex</code><button class="copy" aria-label="Copy command">Copy</button></div>
-        <p class="note">Installs for your user only, no admin rights needed. Uninstall any time from <i>Settings → Apps</i>. Windows SmartScreen may warn because the app isn't code-signed yet: choose <i>More info → Run anyway</i>.</p>
+          TurtleNeck-Setup.exe 다운로드</a></p>
+        <p>또는 PowerShell에서:</p>
+        <div class="cmd"><code>irm https://raw.githubusercontent.com/kpryu6/turtleneck/main/install.ps1 | iex</code><button class="copy" aria-label="명령 복사">복사</button></div>
+        <p class="note">내 계정에만 설치되고 관리자 권한이 필요 없어요. 언제든 <i>설정 → 앱</i>에서 삭제할 수 있어요. 아직 코드 서명이 없어서 Windows SmartScreen 경고가 뜰 수 있어요. <i>추가 정보 → 실행</i>을 누르세요.</p>
       </div>
     </section>
 
     <section class="section" id="privacy">
       <div class="trust">
         <div>
-          <h2>Built in the open</h2>
-          <p>Every release is built from source by GitHub Actions and ships with signed build provenance, so you can check that the file you downloaded came from this repository:</p>
-          <div class="cmd"><code>gh attestation verify TurtleNeck.dmg --repo kpryu6/turtleneck</code><button class="copy" aria-label="Copy command">Copy</button></div>
-          <p class="note">The camera feed never leaves your device. TurtleNeck only keeps the position and size of your face to compare against your baseline.</p>
+          <h2>공개적으로 빌드해요</h2>
+          <p>모든 릴리스는 GitHub Actions가 소스에서 직접 빌드하고, 서명된 빌드 출처 증명이 함께 붙어요. 받은 파일이 정말 이 저장소에서 만들어졌는지 확인할 수 있어요:</p>
+          <div class="cmd"><code>gh attestation verify TurtleNeck.dmg --repo kpryu6/turtleneck</code><button class="copy" aria-label="명령 복사">복사</button></div>
+          <p class="note">카메라 영상은 기기 밖으로 나가지 않아요. TurtleNeck은 기준 자세와 비교하기 위한 얼굴 위치와 크기만 기억해요.</p>
         </div>
-        <img src="assets/icon.svg" alt="TurtleNeck app icon" width="200" height="200">
+        <img src="../assets/icon.svg" alt="TurtleNeck 앱 아이콘" width="200" height="200">
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <span>MIT licensed · Made by <a href="https://github.com/kpryu6">kpryu6</a></span>
-    <span><a href="https://github.com/kpryu6/turtleneck">GitHub</a> · <a href="https://github.com/kpryu6/turtleneck/releases">Releases</a> · <a href="https://ko-fi.com/kpryu">☕ Buy the turtle a coffee</a></span>
+    <span>MIT 라이선스 · 만든 사람 <a href="https://github.com/kpryu6">kpryu6</a></span>
+    <span><a href="https://github.com/kpryu6/turtleneck">GitHub</a> · <a href="https://github.com/kpryu6/turtleneck/releases">릴리스</a> · <a href="https://ko-fi.com/kpryu">☕ 거북이에게 커피 사주기</a></span>
   </footer>
 
-  <script src="main.js"></script>
+  <script src="../main.js"></script>
 </body>
 </html>
