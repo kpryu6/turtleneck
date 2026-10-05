@@ -52,6 +52,10 @@ jobs:
           $checks.GetEnumerator() | ForEach-Object { "{0,-22} {1}" -f $_.Key, $(if ($_.Value) { 'OK' } else { 'MISSING' }) }
           if ($checks.Values -contains $false) { throw "Install is incomplete" }
 
+      - name: Microsoft Defender scan of the installed app
+        shell: pwsh
+        run: ./Windows/scan-defender.ps1 "$env:LOCALAPPDATA\TurtleNeck"
+
       - name: App keeps running after launch
         shell: pwsh
         run: |

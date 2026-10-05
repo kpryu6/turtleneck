@@ -44,6 +44,11 @@ jobs:
         shell: pwsh
         run: ./Windows/build.ps1
 
+      # The released files must not be flagged by Windows' built-in antivirus
+      - name: Microsoft Defender scan
+        shell: pwsh
+        run: ./Windows/scan-defender.ps1 Windows/dist
+
       # What a user gets from TurtleNeck-Setup.exe: install, run, uninstall cleanly
       - name: Installer test (silent install, self-test, uninstall)
         shell: pwsh
